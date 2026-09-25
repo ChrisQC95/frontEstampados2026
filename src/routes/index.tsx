@@ -1,61 +1,49 @@
-import { createFileRoute } from '@tanstack/react-router' // <--- 1. Importar esto
-import { Navbar } from "@/components/landing/Navbar"
-import { HeroSection } from "@/components/landing/HeroSection"
-// Si te sale error en ProgressWidget, comenta esta línea temporalmente o revisa el nombre del archivo
-import { ProgressWidget } from "@/components/landing/progress-widget"
-import { StepsSection } from "@/components/landing/StepsSection"
-// Si te sale error en MYPEBenefitsWidget, comenta esta línea temporalmente
-import { MYPEBenefitsWidget } from "@/components/landing/mype-benefits-widget"
-import { BenefitsSection } from "@/components/landing/BenefitsSection"
-import { ResourcesSection } from "@/components/landing/resources-section"
-import { HelpBar } from "@/components/landing/help-bar"
+import { createFileRoute } from '@tanstack/react-router'
+import { Navbar } from '@/components/landing/Navbar'
+import { HeroSection } from '@/components/landing/HeroSection'
+import { ProgressWidget } from '@/components/landing/progress-widget'
+import { StepsSection } from '@/components/landing/StepsSection'
+import { MYPEBenefitsWidget } from '@/components/landing/mype-benefits-widget'
+import { BenefitsSection } from '@/components/landing/BenefitsSection'
+import { ResourcesSection } from '@/components/landing/resources-section'
+import { HelpBar } from '@/components/landing/help-bar'
 
-// 2. CONFIGURAR LA RUTA (Esto es lo que te faltaba para quitar el 404)
 export const Route = createFileRoute('/')({
   component: HomePage,
 })
 
-// 3. TU COMPONENTE (Le quité el 'default' para seguir el estándar del router)
 function HomePage() {
   return (
-    <div className="min-h-screen bg-background">
+    <div className='min-h-screen bg-background'>
       <Navbar />
 
-      {/* Hero with Progress Widget Overlay */}
-      <div className="relative">
+      <div className='relative'>
         <HeroSection />
 
-        {/* Progress Widget - positioned over hero on desktop */}
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="lg:absolute lg:right-8 lg:top-20 lg:w-80 xl:right-12 2xl:right-[calc((100vw-1280px)/2+32px)]">
-            <div className="relative -mt-4 lg:mt-0">
-              {/* Si ProgressWidget da error, comenta la siguiente línea */}
+        <div className='mx-auto max-w-7xl px-4 sm:px-6 lg:px-8'>
+          <div className='lg:absolute lg:right-8 lg:top-20 lg:w-80 xl:right-12 2xl:right-[calc((100vw-1280px)/2+32px)]'>
+            <div className='relative -mt-4 lg:mt-0'>
               <ProgressWidget />
             </div>
           </div>
         </div>
       </div>
 
-      {/* Main Content Grid */}
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-6">
-        <div className="grid gap-6 lg:grid-cols-[1fr_320px]">
-          {/* Main Content Column */}
-          <div className="space-y-0">
+      <div className='mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8'>
+        <div className='grid gap-6 lg:grid-cols-[1fr_320px]'>
+          <div className='space-y-0'>
             <StepsSection />
             <BenefitsSection />
             <ResourcesSection />
           </div>
 
-          {/* Sidebar Widgets */}
-          <aside className="space-y-6">
-            {/* Si MYPEBenefitsWidget da error, comenta la siguiente línea */}
+          <aside className='space-y-6'>
             <MYPEBenefitsWidget />
           </aside>
         </div>
       </div>
 
-      {/* Help Bar */}
-      <div className="mt-4">
+      <div className='mt-4'>
         <HelpBar />
       </div>
     </div>

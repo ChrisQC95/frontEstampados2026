@@ -1,15 +1,29 @@
-import { createContext, useContext, useEffect, useState, ReactNode } from "react";
-import { User, onAuthStateChanged, signOut as firebaseSignOut, sendPasswordResetEmail } from "firebase/auth";
+import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
+import { onAuthStateChanged, signOut as firebaseSignOut, sendPasswordResetEmail, type User } from "firebase/auth";
 import { auth } from "@/lib/firebase";
 import type { EmpresaPerfilDTO } from "@/features/configuracion/perfil/types";
+
+const API_URL = import.meta.env.VITE_API_URL;
+
+interface DbRole {
+  id: number;
+  codigo: string;
+  nombre: string;
+  descripcion?: string | null;
+  activo: boolean;
+}
 
 interface DbUser {
   id: number;
   firebaseUid: string;
   email: string;
+  nombre?: string;
   ruc?: string;
   razonSocial?: string;
+  rol?: DbRole;
+  activo?: boolean;
 }
+
 interface AuthContextType {
   user: User | null;
   dbUser: DbUser | null;
@@ -17,13 +31,29 @@ interface AuthContextType {
   empresaPerfil: EmpresaPerfilDTO | null;
   setEmpresaPerfil: (perfil: EmpresaPerfilDTO | null) => void;
   loading: boolean;
+  sessionReady: boolean;
   signOut: () => Promise<void>;
   resetPassword: (email: string) => Promise<void>;
-  saveTempData: (key: string, data: any) => void;
-  getTempData: (key: string) => any;
+  saveTempData: (key: string, data: unknown) => void;
+  getTempData: (key: string) => unknown;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
+
+async function fetchJsonWithToken<T>(url: string, token: string): Promise<T> {
+  const response = await fetch(url, {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error(`Solicitud rechazada por el servidor: ${response.status}`);
+  }
+
+  return response.json();
+}
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
@@ -33,90 +63,64 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+      setLoading(true);
       setUser(currentUser);
-      if (currentUser) {
-        // AQUÍ SE MAPEA TU IDEA: Buscamos el ID numérico en la base de datos
+      setDbUser(null);
+      setEmpresaPerfil(null);
+
+      if (!currentUser) {
+        setLoading(false);
+        return;
+      }
+
+      try {
+        const token = await currentUser.getIdToken();
+        const data = await fetchJsonWithToken<DbUser>(
+          `${API_URL}/api/usuarios/firebase/${currentUser.uid}`,
+          token
+        );
+
+        setDbUser(data);
+
         try {
-          // Antes: const response = await fetch(`http://localhost:8080/api/usuarios/firebase/${currentUser.uid}`);
-          const token = await currentUser.getIdToken();
-          //const response = await fetch(`${import.meta.env.VITE_API_URL}/api/usuarios/firebase/${currentUser.uid}`);
-          const response = await fetch(`${import.meta.env.VITE_API_URL}/api/usuarios/firebase/${currentUser.uid}`, {
-            headers: {
-              'Content-Type': 'application/json',
-              Authorization: `Bearer ${token}`
-            }
-          });
-
-          if (response.ok) {
-            const data = await response.json();
-            setDbUser(data); // Guardamos el usuario de BD globalmente
-
-            // Cargar el perfil de empresa
-            try {
-              const perfilRes = await fetch(`${import.meta.env.VITE_API_URL}/api/empresa-configuracion/usuario/${data.id}`, {
-                headers: {
-                  'Content-Type': 'application/json',
-                  Authorization: `Bearer ${token}`
-                }
-              });
-              if (perfilRes.ok) {
-                const perfilData = await perfilRes.json();
-                setEmpresaPerfil(perfilData);
-              }
-            } catch (err) {
-              console.error("Error al cargar el perfil de empresa:", err);
-            }
-          } else {
-            console.warn("Usuario autenticado en Firebase, pero no existe en PostgreSQL");
-            await firebaseSignOut(auth);
-            setUser(null);
-            setDbUser(null);
-          }
-        } catch (error) {
-          console.error("Error al conectar con Spring Boot:", error);
+          const perfilData = await fetchJsonWithToken<EmpresaPerfilDTO>(
+            `${API_URL}/api/empresa-configuracion/usuario/${data.id}`,
+            token
+          );
+          setEmpresaPerfil(perfilData);
+        } catch {
+          setEmpresaPerfil(null);
         }
-      } else {
+      } catch {
+        await firebaseSignOut(auth);
+        setUser(null);
         setDbUser(null);
         setEmpresaPerfil(null);
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
-
-      // Si el usuario inicia sesión y hay datos temporales almacenados,
-      // aquí se podría implementar la lógica para migrar de localStorage a Firestore o al Backend.
     });
 
     return () => unsubscribe();
   }, []);
 
   const signOut = async () => {
-    try {
-      await firebaseSignOut(auth);
-    } catch (error) {
-      console.error("Error al cerrar sesión:", error);
-    }
+    await firebaseSignOut(auth);
+    setUser(null);
+    setDbUser(null);
+    setEmpresaPerfil(null);
   };
 
   const resetPassword = async (email: string) => {
-    try {
-      const actionCodeSettings = {
-        url: `${window.location.origin}/reset-password`,
-        handleCodeInApp: false, // para password reset normal suele ser false 
-      };
-      await sendPasswordResetEmail(auth, email, actionCodeSettings);
-    } catch (error) {
-      console.error("Error al enviar correo de recuperación:", error);
-      throw error;
-    }
+    await sendPasswordResetEmail(auth, email, {
+      url: `${window.location.origin}/reset-password`,
+      handleCodeInApp: false,
+    });
   };
 
-  // Base para guardar datos temporales cuando no hay sesión iniciada
-  const saveTempData = (key: string, data: any) => {
-    // Solo guardamos temporalmente si no hay usuario autenticado
+  const saveTempData = (key: string, data: unknown) => {
     if (!user) {
       localStorage.setItem(`erp_temp_${key}`, JSON.stringify(data));
-    } else {
-      // Opcional: manejar envío a BD directo
-      console.log("Usuario autenticado: considerar guardar en BD -> key:", key);
     }
   };
 
@@ -129,11 +133,21 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
-  return (
-    <AuthContext.Provider value={{ user, dbUser, setDbUser, empresaPerfil, setEmpresaPerfil, loading, signOut, resetPassword, saveTempData, getTempData }}>
-      {children}
-    </AuthContext.Provider>
-  );
+  const value: AuthContextType = {
+    user,
+    dbUser,
+    setDbUser,
+    empresaPerfil,
+    setEmpresaPerfil,
+    loading,
+    sessionReady: Boolean(user && dbUser),
+    signOut,
+    resetPassword,
+    saveTempData,
+    getTempData,
+  };
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 
 export function useAuth() {
@@ -143,3 +157,4 @@ export function useAuth() {
   }
   return context;
 }
+

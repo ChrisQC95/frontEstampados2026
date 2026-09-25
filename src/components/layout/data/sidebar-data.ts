@@ -13,12 +13,12 @@ import {
   IdCard,
   FileDigit,
   Landmark,
-  LifeBuoy
+  ShieldCheck,
+  Images,
 } from 'lucide-react'
 import { type SidebarData } from '../types'
 
 export const sidebarData: SidebarData = {
-  // Estos datos luego los haremos dinámicos consumiendo el contexto de tu Auth de Firebase
   user: {
     name: 'Usuario MYPE',
     email: 'admin@mype.com',
@@ -80,6 +80,11 @@ export const sidebarData: SidebarData = {
           url: '/dashboard/conductores',
           icon: IdCard,
         },
+        {
+          title: 'Mockups',
+          url: '/dashboard/mockups',
+          icon: Images,
+        },
       ],
     },
     {
@@ -120,19 +125,15 @@ export const sidebarData: SidebarData = {
               url: '/dashboard/configuracion/cuentas-bancarias',
               icon: Landmark,
             },
+            {
+              title: 'Usuarios',
+              url: '/dashboard/configuracion/usuarios',
+              icon: ShieldCheck,
+            },
           ],
-        },
-      ],
-    },
-    {
-      title: 'Soporte',
-      items: [
-        {
-          title: 'Centro de Ayuda',
-          url: '/help-center',
-          icon: LifeBuoy,
         },
       ],
     },
   ],
 }
+

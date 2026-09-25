@@ -64,7 +64,7 @@ export const getConductores = async (usuarioId: number): Promise<Conductor[]> =>
   return res.json()
 }
 
-export const registrarVenta = async (payload: VentaRequestDTO): Promise<any> => {
+export const registrarVenta = async (payload: VentaRequestDTO): Promise<unknown> => {
   const token = await getToken()
   const res = await fetch(`${BASE_URL}/ventas`, {
     method: 'POST',
@@ -82,3 +82,4 @@ export const registrarVenta = async (payload: VentaRequestDTO): Promise<any> => 
   
   return res.json()
 }
+

@@ -46,10 +46,12 @@ import { Route as AuthenticatedDashboardVehiculosRouteImport } from './routes/_a
 import { Route as AuthenticatedDashboardSociosRouteImport } from './routes/_authenticated/dashboard/socios'
 import { Route as AuthenticatedDashboardSeriesRouteImport } from './routes/_authenticated/dashboard/series'
 import { Route as AuthenticatedDashboardProductosRouteImport } from './routes/_authenticated/dashboard/productos'
+import { Route as AuthenticatedDashboardMockupsRouteImport } from './routes/_authenticated/dashboard/mockups'
 import { Route as AuthenticatedDashboardConductoresRouteImport } from './routes/_authenticated/dashboard/conductores'
 import { Route as AuthenticatedDashboardCategoriasRouteImport } from './routes/_authenticated/dashboard/categorias'
 import { Route as AuthenticatedDashboardVentasNuevaRouteImport } from './routes/_authenticated/dashboard/ventas/nueva'
 import { Route as AuthenticatedDashboardVentasHistorialRouteImport } from './routes/_authenticated/dashboard/ventas/historial'
+import { Route as AuthenticatedDashboardConfiguracionUsuariosRouteImport } from './routes/_authenticated/dashboard/configuracion/usuarios'
 import { Route as AuthenticatedDashboardConfiguracionPerfilRouteImport } from './routes/_authenticated/dashboard/configuracion/perfil'
 import { Route as AuthenticatedDashboardConfiguracionCuentasBancariasRouteImport } from './routes/_authenticated/dashboard/configuracion/cuentas-bancarias'
 
@@ -249,6 +251,12 @@ const AuthenticatedDashboardProductosRoute =
     path: '/dashboard/productos',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedDashboardMockupsRoute =
+  AuthenticatedDashboardMockupsRouteImport.update({
+    id: '/dashboard/mockups',
+    path: '/dashboard/mockups',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedDashboardConductoresRoute =
   AuthenticatedDashboardConductoresRouteImport.update({
     id: '/dashboard/conductores',
@@ -271,6 +279,12 @@ const AuthenticatedDashboardVentasHistorialRoute =
   AuthenticatedDashboardVentasHistorialRouteImport.update({
     id: '/dashboard/ventas/historial',
     path: '/dashboard/ventas/historial',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedDashboardConfiguracionUsuariosRoute =
+  AuthenticatedDashboardConfiguracionUsuariosRouteImport.update({
+    id: '/dashboard/configuracion/usuarios',
+    path: '/dashboard/configuracion/usuarios',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const AuthenticatedDashboardConfiguracionPerfilRoute =
@@ -304,6 +318,7 @@ export interface FileRoutesByFullPath {
   '/503': typeof errors503Route
   '/dashboard/categorias': typeof AuthenticatedDashboardCategoriasRoute
   '/dashboard/conductores': typeof AuthenticatedDashboardConductoresRoute
+  '/dashboard/mockups': typeof AuthenticatedDashboardMockupsRoute
   '/dashboard/productos': typeof AuthenticatedDashboardProductosRoute
   '/dashboard/series': typeof AuthenticatedDashboardSeriesRoute
   '/dashboard/socios': typeof AuthenticatedDashboardSociosRoute
@@ -325,6 +340,7 @@ export interface FileRoutesByFullPath {
   '/users/': typeof AuthenticatedUsersIndexRoute
   '/dashboard/configuracion/cuentas-bancarias': typeof AuthenticatedDashboardConfiguracionCuentasBancariasRoute
   '/dashboard/configuracion/perfil': typeof AuthenticatedDashboardConfiguracionPerfilRoute
+  '/dashboard/configuracion/usuarios': typeof AuthenticatedDashboardConfiguracionUsuariosRoute
   '/dashboard/ventas/historial': typeof AuthenticatedDashboardVentasHistorialRoute
   '/dashboard/ventas/nueva': typeof AuthenticatedDashboardVentasNuevaRoute
 }
@@ -345,6 +361,7 @@ export interface FileRoutesByTo {
   '/503': typeof errors503Route
   '/dashboard/categorias': typeof AuthenticatedDashboardCategoriasRoute
   '/dashboard/conductores': typeof AuthenticatedDashboardConductoresRoute
+  '/dashboard/mockups': typeof AuthenticatedDashboardMockupsRoute
   '/dashboard/productos': typeof AuthenticatedDashboardProductosRoute
   '/dashboard/series': typeof AuthenticatedDashboardSeriesRoute
   '/dashboard/socios': typeof AuthenticatedDashboardSociosRoute
@@ -366,6 +383,7 @@ export interface FileRoutesByTo {
   '/users': typeof AuthenticatedUsersIndexRoute
   '/dashboard/configuracion/cuentas-bancarias': typeof AuthenticatedDashboardConfiguracionCuentasBancariasRoute
   '/dashboard/configuracion/perfil': typeof AuthenticatedDashboardConfiguracionPerfilRoute
+  '/dashboard/configuracion/usuarios': typeof AuthenticatedDashboardConfiguracionUsuariosRoute
   '/dashboard/ventas/historial': typeof AuthenticatedDashboardVentasHistorialRoute
   '/dashboard/ventas/nueva': typeof AuthenticatedDashboardVentasNuevaRoute
 }
@@ -391,6 +409,7 @@ export interface FileRoutesById {
   '/(errors)/503': typeof errors503Route
   '/_authenticated/dashboard/categorias': typeof AuthenticatedDashboardCategoriasRoute
   '/_authenticated/dashboard/conductores': typeof AuthenticatedDashboardConductoresRoute
+  '/_authenticated/dashboard/mockups': typeof AuthenticatedDashboardMockupsRoute
   '/_authenticated/dashboard/productos': typeof AuthenticatedDashboardProductosRoute
   '/_authenticated/dashboard/series': typeof AuthenticatedDashboardSeriesRoute
   '/_authenticated/dashboard/socios': typeof AuthenticatedDashboardSociosRoute
@@ -412,6 +431,7 @@ export interface FileRoutesById {
   '/_authenticated/users/': typeof AuthenticatedUsersIndexRoute
   '/_authenticated/dashboard/configuracion/cuentas-bancarias': typeof AuthenticatedDashboardConfiguracionCuentasBancariasRoute
   '/_authenticated/dashboard/configuracion/perfil': typeof AuthenticatedDashboardConfiguracionPerfilRoute
+  '/_authenticated/dashboard/configuracion/usuarios': typeof AuthenticatedDashboardConfiguracionUsuariosRoute
   '/_authenticated/dashboard/ventas/historial': typeof AuthenticatedDashboardVentasHistorialRoute
   '/_authenticated/dashboard/ventas/nueva': typeof AuthenticatedDashboardVentasNuevaRoute
 }
@@ -435,6 +455,7 @@ export interface FileRouteTypes {
     | '/503'
     | '/dashboard/categorias'
     | '/dashboard/conductores'
+    | '/dashboard/mockups'
     | '/dashboard/productos'
     | '/dashboard/series'
     | '/dashboard/socios'
@@ -456,6 +477,7 @@ export interface FileRouteTypes {
     | '/users/'
     | '/dashboard/configuracion/cuentas-bancarias'
     | '/dashboard/configuracion/perfil'
+    | '/dashboard/configuracion/usuarios'
     | '/dashboard/ventas/historial'
     | '/dashboard/ventas/nueva'
   fileRoutesByTo: FileRoutesByTo
@@ -476,6 +498,7 @@ export interface FileRouteTypes {
     | '/503'
     | '/dashboard/categorias'
     | '/dashboard/conductores'
+    | '/dashboard/mockups'
     | '/dashboard/productos'
     | '/dashboard/series'
     | '/dashboard/socios'
@@ -497,6 +520,7 @@ export interface FileRouteTypes {
     | '/users'
     | '/dashboard/configuracion/cuentas-bancarias'
     | '/dashboard/configuracion/perfil'
+    | '/dashboard/configuracion/usuarios'
     | '/dashboard/ventas/historial'
     | '/dashboard/ventas/nueva'
   id:
@@ -521,6 +545,7 @@ export interface FileRouteTypes {
     | '/(errors)/503'
     | '/_authenticated/dashboard/categorias'
     | '/_authenticated/dashboard/conductores'
+    | '/_authenticated/dashboard/mockups'
     | '/_authenticated/dashboard/productos'
     | '/_authenticated/dashboard/series'
     | '/_authenticated/dashboard/socios'
@@ -542,6 +567,7 @@ export interface FileRouteTypes {
     | '/_authenticated/users/'
     | '/_authenticated/dashboard/configuracion/cuentas-bancarias'
     | '/_authenticated/dashboard/configuracion/perfil'
+    | '/_authenticated/dashboard/configuracion/usuarios'
     | '/_authenticated/dashboard/ventas/historial'
     | '/_authenticated/dashboard/ventas/nueva'
   fileRoutesById: FileRoutesById
@@ -825,6 +851,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDashboardProductosRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/dashboard/mockups': {
+      id: '/_authenticated/dashboard/mockups'
+      path: '/dashboard/mockups'
+      fullPath: '/dashboard/mockups'
+      preLoaderRoute: typeof AuthenticatedDashboardMockupsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/dashboard/conductores': {
       id: '/_authenticated/dashboard/conductores'
       path: '/dashboard/conductores'
@@ -851,6 +884,13 @@ declare module '@tanstack/react-router' {
       path: '/dashboard/ventas/historial'
       fullPath: '/dashboard/ventas/historial'
       preLoaderRoute: typeof AuthenticatedDashboardVentasHistorialRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/dashboard/configuracion/usuarios': {
+      id: '/_authenticated/dashboard/configuracion/usuarios'
+      path: '/dashboard/configuracion/usuarios'
+      fullPath: '/dashboard/configuracion/usuarios'
+      preLoaderRoute: typeof AuthenticatedDashboardConfiguracionUsuariosRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/dashboard/configuracion/perfil': {
@@ -897,6 +937,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedSettingsRouteRoute: typeof AuthenticatedSettingsRouteRouteWithChildren
   AuthenticatedDashboardCategoriasRoute: typeof AuthenticatedDashboardCategoriasRoute
   AuthenticatedDashboardConductoresRoute: typeof AuthenticatedDashboardConductoresRoute
+  AuthenticatedDashboardMockupsRoute: typeof AuthenticatedDashboardMockupsRoute
   AuthenticatedDashboardProductosRoute: typeof AuthenticatedDashboardProductosRoute
   AuthenticatedDashboardSeriesRoute: typeof AuthenticatedDashboardSeriesRoute
   AuthenticatedDashboardSociosRoute: typeof AuthenticatedDashboardSociosRoute
@@ -910,6 +951,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedUsersIndexRoute: typeof AuthenticatedUsersIndexRoute
   AuthenticatedDashboardConfiguracionCuentasBancariasRoute: typeof AuthenticatedDashboardConfiguracionCuentasBancariasRoute
   AuthenticatedDashboardConfiguracionPerfilRoute: typeof AuthenticatedDashboardConfiguracionPerfilRoute
+  AuthenticatedDashboardConfiguracionUsuariosRoute: typeof AuthenticatedDashboardConfiguracionUsuariosRoute
   AuthenticatedDashboardVentasHistorialRoute: typeof AuthenticatedDashboardVentasHistorialRoute
   AuthenticatedDashboardVentasNuevaRoute: typeof AuthenticatedDashboardVentasNuevaRoute
 }
@@ -919,6 +961,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedDashboardCategoriasRoute: AuthenticatedDashboardCategoriasRoute,
   AuthenticatedDashboardConductoresRoute:
     AuthenticatedDashboardConductoresRoute,
+  AuthenticatedDashboardMockupsRoute: AuthenticatedDashboardMockupsRoute,
   AuthenticatedDashboardProductosRoute: AuthenticatedDashboardProductosRoute,
   AuthenticatedDashboardSeriesRoute: AuthenticatedDashboardSeriesRoute,
   AuthenticatedDashboardSociosRoute: AuthenticatedDashboardSociosRoute,
@@ -934,6 +977,8 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
     AuthenticatedDashboardConfiguracionCuentasBancariasRoute,
   AuthenticatedDashboardConfiguracionPerfilRoute:
     AuthenticatedDashboardConfiguracionPerfilRoute,
+  AuthenticatedDashboardConfiguracionUsuariosRoute:
+    AuthenticatedDashboardConfiguracionUsuariosRoute,
   AuthenticatedDashboardVentasHistorialRoute:
     AuthenticatedDashboardVentasHistorialRoute,
   AuthenticatedDashboardVentasNuevaRoute:
