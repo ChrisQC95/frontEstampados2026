@@ -81,6 +81,9 @@ function getRoleClass(codigo: string) {
 function normalize(value: string) {
   return value.trim().toLowerCase()
 }
+function isValidEmail(value: string) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim())
+}
 
 export default function UsuariosPage() {
   const { dbUser } = useAuth()
@@ -162,6 +165,14 @@ export default function UsuariosPage() {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault()
+    if (!formData.nombre.trim()) {
+      toast.error('Ingresa el nombre del usuario.')
+      return
+    }
+    if (!formData.id && !isValidEmail(formData.email)) {
+      toast.error('Ingresa un correo válido.')
+      return
+    }
     if (!formData.rolId) {
       toast.error('Selecciona un rol para el usuario.')
       return
@@ -551,4 +562,6 @@ function EstadoBadge({ activo }: { activo: boolean }) {
     </Badge>
   )
 }
+
+
 

@@ -13,7 +13,7 @@ export function HelpBar() {
             <span className="font-bold text-lg">Centro de ayuda</span>
             <span className="mx-3 hidden sm:inline text-white/60">|</span>
             <span className="block text-sm text-white/90 sm:inline">
-              Consulta recursos de formalización y soporte operativo cuando lo necesites.
+              Consulta recursos de operación, ventas y soporte cuando lo necesites.
             </span>
           </div>
         </div>

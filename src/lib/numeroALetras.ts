@@ -1,6 +1,6 @@
 /**
  * Convierte un número decimal a su representación en letras (español, estilo SUNAT).
- * Soporta hasta millones. Para tesis/ERP de MYPE es suficiente.
+ * Soporta importes comerciales habituales para ventas de productos personalizados.
  *
  * Ejemplo: numeroALetras(7700.50) → "SIETE MIL SETECIENTOS CON 50/100"
  */

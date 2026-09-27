@@ -22,7 +22,7 @@ export function TeamSwitcher() {
   const navigate = useNavigate()
 
   // 1. Lógica dinámica: Si empresaPerfil aún no carga tras el F5, usamos fallbacks limpios
-  const nombreEmpresa = empresaPerfil?.razonSocial || 'Cargando empresa...'
+  const nombreEmpresa = empresaPerfil?.nombreComercial || empresaPerfil?.razonSocial || 'Cargando empresa...'
   const logoEmpresaUrl = empresaPerfil?.logoUrl || ''
   const identificadorUnico = empresaPerfil?.ruc ? `RUC: ${empresaPerfil.ruc}` : 'ERP Activo'
 

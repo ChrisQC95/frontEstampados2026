@@ -20,13 +20,13 @@ export default function HelpCenter() {
           <div className="flex-1 space-y-4 text-center md:text-left">
             <div className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs font-semibold uppercase tracking-widest text-white/90 backdrop-blur-sm">
               <LifeBuoy className="h-4 w-4 text-emerald-400" />
-              Soporte y Entrenamiento
+              Soporte operativo
             </div>
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight">
               Centro de <span className="bg-gradient-to-r from-sky-300 to-emerald-300 bg-clip-text text-transparent">Ayuda</span>
             </h1>
             <p className="max-w-xl text-blue-100/80 text-sm sm:text-base leading-relaxed mx-auto md:mx-0">
-              Aprende a usar el sistema paso a paso. Desde registrar tu primer producto hasta emitir comprobantes como todo un profesional.
+              Aprende a gestionar productos, clientes, mockups, ventas y comprobantes para pedidos de sublimados personalizados.
             </p>
           </div>
           
@@ -65,11 +65,11 @@ export default function HelpCenter() {
                   src="https://drive.google.com/file/d/1p3wVoBp4ebRH8Tub27pWqfhVa8JkvpYJ/preview" 
                   className="absolute top-0 left-0 w-full h-full border-0"
                   allow="autoplay; fullscreen"
-                  title="Videotutorial FormaEasy"
+                  title="Videotutorial Sabiduría"
                 />
               </div>
               <p className="text-sm text-slate-500 dark:text-slate-400">
-                En este video de 5 minutos te mostramos la ruta completa: configuración, inventario y tu primera venta.
+                En este video de 5 minutos te mostramos la ruta completa: configuración, catálogo de productos, mockups y primera venta.
               </p>
             </section>
 
@@ -88,18 +88,18 @@ export default function HelpCenter() {
                 <Accordion type="single" collapsible className="w-full">
                   <AccordionItem value="item-1" className="border-b px-6 py-2">
                     <AccordionTrigger className="text-left font-semibold text-slate-800 dark:text-slate-200 hover:text-blue-600 dark:hover:text-blue-400 hover:no-underline">
-                      ¿Cómo registrar un nuevo Producto o Servicio?
+                      ¿Cómo registrar un producto personalizable?
                     </AccordionTrigger>
                     <AccordionContent className="text-slate-600 dark:text-slate-400 leading-relaxed pt-2 pb-4">
-                      Dirígete a la sección <strong>Catálogos &gt; Productos y Servicios</strong> en el menú lateral. Haz clic en el botón "+ Nuevo" en la esquina superior derecha. Llena los datos requeridos como el nombre, código y precio. Si manejas stock, activa el control de inventario. Finalmente, haz clic en Guardar.
+                      Dirígete a <strong>Catálogos &gt; Productos</strong> en el menú lateral. Haz clic en "+ Nuevo" y registra el producto base, precio, unidad y stock si corresponde. Esto te permitirá vender polos, tazas, gorras u otros artículos personalizados con mejor control operativo.
                     </AccordionContent>
                   </AccordionItem>
                   <AccordionItem value="item-2" className="border-b px-6 py-2">
                     <AccordionTrigger className="text-left font-semibold text-slate-800 dark:text-slate-200 hover:text-blue-600 dark:hover:text-blue-400 hover:no-underline">
-                      ¿Cómo crear una Venta?
+                      ¿Cómo registrar una venta de sublimados?
                     </AccordionTrigger>
                     <AccordionContent className="text-slate-600 dark:text-slate-400 leading-relaxed pt-2 pb-4">
-                      Para emitir un comprobante, ve a <strong>Operaciones &gt; Ventas &gt; Nueva Venta</strong>. Selecciona el cliente, el tipo de comprobante (Boleta, Factura o Nota de Venta) y busca los productos que deseas vender. El sistema calculará el IGV automáticamente. Haz clic en "Emitir Comprobante" y podrás descargar el PDF al instante.
+                      Ve a <strong>Operaciones &gt; Ventas &gt; Nueva Venta</strong>. Selecciona el cliente, el tipo de comprobante y agrega los productos personalizados del pedido. El sistema calculará importes e IGV cuando corresponda. Luego podrás emitir y descargar el comprobante en PDF.
                     </AccordionContent>
                   </AccordionItem>
                   <AccordionItem value="item-3" className="border-b-0 px-6 py-2">
@@ -107,7 +107,7 @@ export default function HelpCenter() {
                       ¿Cuál es la diferencia entre Factura, Boleta y Nota de Venta?
                     </AccordionTrigger>
                     <AccordionContent className="text-slate-600 dark:text-slate-400 leading-relaxed pt-2 pb-4">
-                      Las <strong>Facturas</strong> y <strong>Boletas</strong> son documentos válidos tributariamente (simulados en este entorno). La Factura exige que el cliente tenga RUC (11 dígitos). En cambio, la <strong>Nota de Venta</strong> es un documento de control interno, ideal para ventas rápidas que no requieren registro oficial, y los productos agregados no sumarán IGV.
+                      Las <strong>Facturas</strong> y <strong>Boletas</strong> se usan para ventas con sustento tributario. La Factura exige que el cliente tenga RUC de 11 dígitos. La <strong>Nota de Venta</strong> sirve como control interno para pedidos rápidos o coordinaciones previas con el cliente.
                     </AccordionContent>
                   </AccordionItem>
                 </Accordion>
@@ -132,7 +132,7 @@ export default function HelpCenter() {
                       ¿Aún tienes dudas?
                     </h3>
                     <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
-                      Si el videotutorial no resolvió tu problema, nuestro equipo de entrenamiento está listo para ayudarte con tu proceso de formalización.
+                      Si el videotutorial no resolvió tu problema, el administrador del sistema puede ayudarte con productos, clientes, mockups o ventas.
                     </p>
                   </div>
 

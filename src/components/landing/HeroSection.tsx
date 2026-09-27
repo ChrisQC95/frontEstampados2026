@@ -27,40 +27,40 @@ export function HeroSection() {
             <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-1.5 backdrop-blur-sm">
               <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
               <span className="text-xs font-semibold uppercase tracking-widest text-white/90">
-                Facturador de Entrenamiento
+                Gestión de Sublimados
               </span>
             </div>
 
             {/* Tipografía fluida: 3xl → 5xl → 6xl → 7xl */}
             <h1 className="text-4xl font-extrabold tracking-tight text-white sm:text-5xl md:text-5xl lg:text-6xl xl:text-7xl">
-              Formaliza tu
+              Personaliza tu
               <span className="block mt-1 bg-gradient-to-r from-sky-300 to-emerald-300 bg-clip-text text-transparent">
-                Negocio
+                Marca
               </span>
-              de Manera Fácil
+              con Productos Únicos
             </h1>
 
             <p className="mt-6 max-w-lg text-base sm:text-lg leading-relaxed text-blue-100/80 lg:mx-0 mx-auto">
-              Gestiona tus ventas con Facturas, Boletas y Notas de Venta.
-              Prepárate para operar con múltiples clientes y da el salto
-              a la formalización con confianza.
+              Gestiona pedidos de polos, tazas, gorras y merchandising personalizado.
+              Atiende clientes corporativos con catálogo, mockups, ventas
+              y comprobantes en un solo lugar.
             </p>
 
             {/* Stats row */}
             <div className="mt-10 flex flex-wrap justify-center gap-6 lg:justify-start">
               <div className="flex items-center gap-2">
                 <span className="text-3xl font-bold text-white">3</span>
-                <span className="text-sm text-blue-200 leading-tight max-w-[80px]">tipos de comprobante</span>
+                <span className="text-sm text-blue-200 leading-tight max-w-[80px]">tipos de producto</span>
               </div>
               <div className="h-10 w-px bg-white/20 hidden sm:block" />
               <div className="flex items-center gap-2">
                 <span className="text-3xl font-bold text-white">100%</span>
-                <span className="text-sm text-blue-200 leading-tight max-w-[80px]">en la nube</span>
+                <span className="text-sm text-blue-200 leading-tight max-w-[80px]">gestión centralizada</span>
               </div>
               <div className="h-10 w-px bg-white/20 hidden sm:block" />
               <div className="flex items-center gap-2">
                 <span className="text-3xl font-bold text-white">∞</span>
-                <span className="text-sm text-blue-200 leading-tight max-w-[80px]">clientes registrables</span>
+                <span className="text-sm text-blue-200 leading-tight max-w-[80px]">diseños posibles</span>
               </div>
             </div>
           </div>
@@ -75,7 +75,7 @@ export function HeroSection() {
               {/* Foto principal del emprendedor */}
               <img
                 src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?q=80&w=800&auto=format&fit=crop"
-                alt="Emprendedor usando ERP"
+                alt="Productos sublimados personalizados"
                 className="rounded-2xl object-cover shadow-2xl w-full h-[280px] sm:h-[350px] lg:h-[440px] object-top"
               />
 
@@ -97,15 +97,15 @@ export function HeroSection() {
                 <div className="bg-white/95 backdrop-blur-sm rounded-2xl shadow-xl">
                   <div className="pb-3 pt-4 px-5">
                     <p className="text-xs sm:text-sm font-semibold text-slate-700 uppercase tracking-wider">
-                      Control de Ventas (Entrenamiento)
+                      Control de pedidos personalizados
                     </p>
                   </div>
                   <div className="px-5 pb-4">
                     <ul className="space-y-2.5">
                       {[
-                        'Emisión de Notas de Venta',
-                        'Control de Inventario',
-                        'Registro de Clientes',
+                        'Registro de pedidos',
+                        'Control de insumos y stock',
+                        'Clientes corporativos',
                       ].map((label) => (
                         <li key={label} className="flex items-center gap-3">
                           <svg className="h-4 w-4 sm:h-5 sm:w-5 shrink-0 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">

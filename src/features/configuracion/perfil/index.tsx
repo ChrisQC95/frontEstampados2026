@@ -106,8 +106,7 @@ export default function PerfilEmpresa() {
         // componentes reflejen el logo sin hacer otro fetch
         setEmpresaPerfil(data);
       })
-      .catch((err) => {
-        console.error('Error al cargar el perfil de empresa:', err);
+      .catch(() => {
         toast.error('Error al cargar el perfil de empresa');
         setLoading(false);
       });
@@ -134,8 +133,7 @@ export default function PerfilEmpresa() {
       // Actualizar solo el logoUrl en el estado del formulario
       setForm((prev) => ({ ...prev, logoUrl: uploadedUrl }));
       toast.success('Imagen subida correctamente');
-    } catch (err) {
-      console.error(err);
+    } catch {
       toast.error('Error al subir la imagen. Intenta de nuevo.');
     } finally {
       setUploadingLogo(false);
@@ -156,8 +154,7 @@ export default function PerfilEmpresa() {
       // Sincronizar el form con la respuesta del servidor (la fuente de verdad)
       setForm(dtoToForm(updated));
       toast.success('Perfil actualizado correctamente');
-    } catch (err) {
-      console.error(err);
+    } catch {
       toast.error('Ocurrió un error al guardar los cambios');
     } finally {
       setSaving(false);
@@ -261,7 +258,7 @@ export default function PerfilEmpresa() {
                 <Input
                   id='razonSocial'
                   name='razonSocial'
-                  placeholder='Mi Empresa S.A.C.'
+                  placeholder='Sabiduría'
                   value={form.razonSocial}
                   onChange={handleChange}
                   required

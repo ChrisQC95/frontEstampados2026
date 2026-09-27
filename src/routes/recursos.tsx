@@ -5,8 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter }
 import { Button } from "@/components/ui/button"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
-import { FileText, Landmark, Building, MapPin, Info, ArrowRight } from "lucide-react"
-import { ExternalLink } from "lucide-react";
+import { FileText, Landmark, Building, MapPin, Info, ArrowRight, ExternalLink } from "lucide-react"
 
 export const Route = createFileRoute('/recursos')({
   component: RecursosPage,
@@ -32,24 +31,24 @@ function RecursosPage() {
         <section className="bg-royal-blue/5 py-12 md:py-20 text-center">
           <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
             <h1 className="text-3xl md:text-5xl font-bold text-royal-blue mb-4">
-              Herramientas para tu Formalización
+              Herramientas para tus Sublimados
             </h1>
             <p className="text-lg md:text-xl text-muted-foreground">
-              Calcula, descarga y prepárate para dar el gran paso
+              Cotiza, planifica y prepara pedidos personalizados con mayor control
             </p>
           </div>
         </section>
 
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 space-y-16">
 
-          {/* Main Section: Calculadora Interactiva de Costos */}
+          {/* Main Section: Calculadora Referencial de Pedido */}
           <section>
             <Card className="border-0 shadow-lg bg-card max-w-3xl mx-auto overflow-hidden">
               <CardHeader className="text-center pb-6">
                 <CardTitle className="text-2xl text-royal-blue font-bold">
-                  Calculadora Interactiva de Costos
+                  Calculadora Referencial de Pedido
                 </CardTitle>
-                <CardDescription className="text-base">Estima la inversión inicial requerida para formalizar tu empresa</CardDescription>
+                <CardDescription className="text-base">Estima costos base para preparar un pedido personalizado</CardDescription>
               </CardHeader>
               <CardContent className="space-y-8 px-6 sm:px-10 pb-10">
 
@@ -59,7 +58,7 @@ function RecursosPage() {
                     <div className="flex justify-between items-center mb-3">
                       <div className="flex items-center gap-2">
                         <FileText className="h-5 w-5 text-royal-blue" />
-                        <label className="text-base font-semibold text-foreground">Elaboración de Minuta</label>
+                        <label className="text-base font-semibold text-foreground">Diseño y preparación</label>
                         <Tooltip>
                           <TooltipTrigger asChild>
                             <button type="button" className="text-muted-foreground hover:text-royal-blue transition-colors focus:outline-none">
@@ -67,7 +66,7 @@ function RecursosPage() {
                             </button>
                           </TooltipTrigger>
                           <TooltipContent className="bg-popover text-popover-foreground border shadow-md">
-                            <p className="max-w-xs text-sm">Depende del abogado o centro empresarial que elabore el acto constitutivo.</p>
+                            <p className="max-w-xs text-sm">Incluye ajuste de arte, revisión de medidas y preparación del archivo para producción.</p>
                           </TooltipContent>
                         </Tooltip>
                       </div>
@@ -90,7 +89,7 @@ function RecursosPage() {
                     <div className="flex justify-between items-center mb-3">
                       <div className="flex items-center gap-2">
                         <Landmark className="h-5 w-5 text-royal-blue" />
-                        <label className="text-base font-semibold text-foreground">Gastos Notariales</label>
+                        <label className="text-base font-semibold text-foreground">Productos base</label>
                         <Tooltip>
                           <TooltipTrigger asChild>
                             <button type="button" className="text-muted-foreground hover:text-royal-blue transition-colors focus:outline-none">
@@ -98,7 +97,7 @@ function RecursosPage() {
                             </button>
                           </TooltipTrigger>
                           <TooltipContent className="bg-popover text-popover-foreground border shadow-md">
-                            <p className="max-w-xs text-sm">El costo varía según la notaría elegida y el capital social.</p>
+                            <p className="max-w-xs text-sm">Depende del tipo de producto, cantidad, color y disponibilidad de stock.</p>
                           </TooltipContent>
                         </Tooltip>
                       </div>
@@ -121,7 +120,7 @@ function RecursosPage() {
                     <div className="flex justify-between items-center mb-3">
                       <div className="flex items-center gap-2">
                         <Building className="h-5 w-5 text-royal-blue" />
-                        <label className="text-base font-semibold text-foreground">Inscripción SUNARP</label>
+                        <label className="text-base font-semibold text-foreground">Sublimado e impresión</label>
                         <Tooltip>
                           <TooltipTrigger asChild>
                             <button type="button" className="text-muted-foreground hover:text-royal-blue transition-colors focus:outline-none">
@@ -129,7 +128,7 @@ function RecursosPage() {
                             </button>
                           </TooltipTrigger>
                           <TooltipContent className="bg-popover text-popover-foreground border shadow-md">
-                            <p className="max-w-xs text-sm">Costos registrales por presentación y calificación del título.</p>
+                            <p className="max-w-xs text-sm">Considera tinta, papel, tiempo de prensado y merma operativa.</p>
                           </TooltipContent>
                         </Tooltip>
                       </div>
@@ -152,7 +151,7 @@ function RecursosPage() {
                     <div className="flex justify-between items-center mb-3">
                       <div className="flex items-center gap-2">
                         <MapPin className="h-5 w-5 text-royal-blue" />
-                        <label className="text-base font-semibold text-foreground">Licencia Municipal</label>
+                        <label className="text-base font-semibold text-foreground">Empaque y entrega</label>
                         <Tooltip>
                           <TooltipTrigger asChild>
                             <button type="button" className="text-muted-foreground hover:text-royal-blue transition-colors focus:outline-none">
@@ -160,7 +159,7 @@ function RecursosPage() {
                             </button>
                           </TooltipTrigger>
                           <TooltipContent className="bg-popover text-popover-foreground border shadow-md">
-                            <p className="max-w-xs text-sm">Depende del tamaño del local y el distrito.</p>
+                            <p className="max-w-xs text-sm">Depende del volumen del pedido, presentación final y zona de entrega.</p>
                           </TooltipContent>
                         </Tooltip>
                       </div>
@@ -186,11 +185,11 @@ function RecursosPage() {
                 {/* Static items */}
                 <div className="space-y-3 bg-muted/30 p-4 rounded-xl border border-border">
                   <div className="flex justify-between items-center text-sm">
-                    <span className="text-muted-foreground font-medium">Reserva de Nombre</span>
+                    <span className="text-muted-foreground font-medium">Mockup inicial</span>
                     <span className="font-bold text-foreground">S/ {reserva}</span>
                   </div>
                   <div className="flex justify-between items-center text-sm">
-                    <span className="text-muted-foreground font-medium">Trámite RUC (SUNAT)</span>
+                    <span className="text-muted-foreground font-medium">Revisión del cliente</span>
                     <span className="font-bold text-success-green bg-success-green/10 px-2 py-1 rounded-md">S/ {ruc} - Gratuito</span>
                   </div>
                 </div>
@@ -198,12 +197,12 @@ function RecursosPage() {
               </CardContent>
               <CardFooter className="bg-royal-blue py-10 flex flex-col items-center justify-center gap-8">
                 <div className="text-center">
-                  <p className="text-white/80 text-sm md:text-base font-medium tracking-widest uppercase mb-2">Costo Total Estimado</p>
+                  <p className="text-white/80 text-sm md:text-base font-medium tracking-widest uppercase mb-2">Total Referencial del Pedido</p>
                   <p className="text-5xl md:text-6xl font-bold text-white drop-shadow-sm">S/ {total}</p>
                 </div>
                 <a href="https://www.sunarp.gob.pe/w-sid/index.html" target="_blank" rel="noopener noreferrer">
                   <Button className="bg-white text-royal-blue hover:bg-white/90 font-bold gap-2 text-base px-8 h-14 shadow-xl rounded-full w-full sm:w-auto transition-transform hover:scale-105">
-                    Comenzar mi proceso hoy <ArrowRight className="h-5 w-5" />
+                    Preparar una cotización <ArrowRight className="h-5 w-5" />
                   </Button>
                 </a>
               </CardFooter>
@@ -215,11 +214,11 @@ function RecursosPage() {
             {/* Tarjeta 1 */}
             <Card className="border border-border shadow-sm hover:shadow-md transition-shadow">
               <CardHeader>
-                <CardTitle className="text-xl text-royal-blue">Aporte de Capital</CardTitle>
+                <CardTitle className="text-xl text-royal-blue">Planificación de Insumos</CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground leading-relaxed">
-                  No existe un monto mínimo obligatorio legalmente para constituir la empresa. El capital puede estar conformado por dinero en efectivo, depositado en una cuenta bancaria a nombre de la naciente empresa, o aportado en bienes (computadoras, maquinaria, muebles, etc.) mediante una declaración jurada simple de su valor.
+                  Antes de aceptar un pedido, valida stock de productos base, colores disponibles, tiempos de producción y margen esperado. Esto reduce retrasos y evita prometer entregas fuera de capacidad.
                 </p>
               </CardContent>
             </Card>
@@ -227,16 +226,16 @@ function RecursosPage() {
             {/* Tarjeta 2 */}
             <Card className="border border-border shadow-sm hover:shadow-md transition-shadow">
               <CardHeader>
-                <CardTitle className="text-xl text-royal-blue">Modelos de Contrato</CardTitle>
+                <CardTitle className="text-xl text-royal-blue">Plantillas Comerciales</CardTitle>
               </CardHeader>
               <CardContent className="space-y-5">
                 <p className="text-muted-foreground">
-                  Descarga plantillas modelo para estructurar tu empresa formal:
+                  Prepara documentos base para responder más rápido a clientes corporativos:
                 </p>
                 <div className="space-y-3">
                   <a href="https://www.gob.pe/institucion/sunarp/informes-publicaciones/4081275-modelo-de-minutas-de-constitucion-de-empresas" target="_blank" rel="noopener noreferrer">
                     <Button variant="outline" className="w-full justify-start gap-4 h-auto py-3 border-royal-blue/20 hover:bg-royal-blue hover:text-white transition-colors group">
-                      <span className="text-left font-semibold">Ver Formatos Oficiales (SUNARP)</span>
+                      <span className="text-left font-semibold">Ver referencia comercial</span>
                       <ExternalLink className="h-4 w-4 opacity-70 group-hover:opacity-100" />
                     </Button>
                   </a>
@@ -252,21 +251,21 @@ function RecursosPage() {
               <CardContent className="p-2 sm:p-6">
                 <Accordion type="single" collapsible className="w-full">
                   <AccordionItem value="item-1" className="border-b-border/50">
-                    <AccordionTrigger className="text-left hover:text-royal-blue transition-colors font-medium text-base sm:text-lg py-5 px-2">¿Cuánto demora el proceso?</AccordionTrigger>
+                    <AccordionTrigger className="text-left hover:text-royal-blue transition-colors font-medium text-base sm:text-lg py-5 px-2">¿Cuánto demora preparar un pedido?</AccordionTrigger>
                     <AccordionContent className="text-muted-foreground text-base px-2 pb-5">
-                      Entre 3 y 15 días hábiles.
+                      Depende de cantidad, disponibilidad de insumos y aprobación del mockup. Un pedido pequeño puede resolverse en pocos días si el diseño está aprobado.
                     </AccordionContent>
                   </AccordionItem>
                   <AccordionItem value="item-2" className="border-b-border/50">
-                    <AccordionTrigger className="text-left hover:text-royal-blue transition-colors font-medium text-base sm:text-lg py-5 px-2">¿El trámite del RUC tiene costo?</AccordionTrigger>
+                    <AccordionTrigger className="text-left hover:text-royal-blue transition-colors font-medium text-base sm:text-lg py-5 px-2">¿El mockup tiene costo?</AccordionTrigger>
                     <AccordionContent className="text-muted-foreground text-base px-2 pb-5">
-                      No, es un trámite 100% gratuito en SUNAT.
+                      Puede manejarse como cortesía para pedidos confirmados o como servicio separado cuando requiere diseño adicional.
                     </AccordionContent>
                   </AccordionItem>
                   <AccordionItem value="item-3" className="border-b-0">
-                    <AccordionTrigger className="text-left hover:text-royal-blue transition-colors font-medium text-base sm:text-lg py-5 px-2">¿Necesito Licencia de Funcionamiento?</AccordionTrigger>
+                    <AccordionTrigger className="text-left hover:text-royal-blue transition-colors font-medium text-base sm:text-lg py-5 px-2">¿Debo validar stock antes de vender?</AccordionTrigger>
                     <AccordionContent className="text-muted-foreground text-base px-2 pb-5">
-                      Sí, se tramita en tu municipalidad y es obligatoria para operar locales físicos.
+                      Sí. Validar stock y colores antes de confirmar evita cambios de último minuto con el cliente.
                     </AccordionContent>
                   </AccordionItem>
                 </Accordion>

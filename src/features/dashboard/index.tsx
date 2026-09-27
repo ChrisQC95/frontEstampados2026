@@ -6,14 +6,9 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import { Header } from '@/components/layout/header'
 import { Main } from '@/components/layout/main'
-import { ProfileDropdown } from '@/components/profile-dropdown'
-import { ThemeSwitch } from '@/components/theme-switch'
-import { Overview } from './components/overview'
-import type { GraficoVentaData } from './components/overview'
-import { RecentSales } from './components/recent-sales'
-import type { VentaReciente } from './components/recent-sales'
+import { Overview, type GraficoVentaData } from './components/overview'
+import { RecentSales, type VentaReciente } from './components/recent-sales'
 import { useAuth } from '@/context/AuthContext'
 import { auth } from '@/lib/firebase'
 import { Loader2, TrendingUp, FileText, ScrollText, NotebookPen, Package, Users } from 'lucide-react'
@@ -72,12 +67,12 @@ export function Dashboard() {
         {/* ── Encabezado institucional ─────────────────────────────────── */}
         <div className="mb-6">
           <h1 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-slate-100">
-            Facturador de entrenamiento
+            Panel de gestión de sublimados
           </h1>
           <p className="mt-2 max-w-2xl text-sm text-muted-foreground leading-relaxed">
-            Sistema de facturación de entrenamiento para un futuro sistema real post formalización.
-            Evalúa el crecimiento de tu emprendimiento gestionando Notas de Venta y prepárate para
-            operar con múltiples clientes.
+            Administra ventas, clientes, productos personalizados y comprobantes desde un solo panel.
+            Pensado para una empresa de sublimados que trabaja pedidos corporativos, merchandising
+            y productos a medida.
           </p>
         </div>
 

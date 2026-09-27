@@ -192,10 +192,10 @@ export default function ProductosPage() {
       <div className='flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between'>
         <div>
           <h1 className='text-royal-blue text-3xl font-bold tracking-tight'>
-            Productos & Servicios
+            Productos
           </h1>
           <p className='mt-1 text-sm text-slate-500'>
-            Gestiona tu catálogo de bienes y servicios
+            Gestiona tu catálogo de productos
           </p>
         </div>
         <Button

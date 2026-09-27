@@ -29,10 +29,10 @@ export function RequirementsTabs() {
       {/* Title */}
       <div className="mb-8 text-center max-w-2xl mx-auto">
         <h2 className="text-3xl font-bold tracking-tight text-royal-blue mb-4">
-          Requisitos de Formalización (RUC)
+          Flujo Operativo para Sublimados
         </h2>
         <p className="text-muted-foreground text-lg">
-          Conoce el proceso para obtener tu RUC de 11 dígitos según el tipo de trámite en la SUNAT.
+          Organiza el recorrido de un pedido desde el diseño hasta la venta final.
         </p>
       </div>
 
@@ -40,17 +40,17 @@ export function RequirementsTabs() {
         <TabsList className="grid w-full grid-cols-3 mb-8">
           <TabsTrigger value="digital" className="text-base">
             <MonitorSmartphone className="w-4 h-4 mr-2" />
-            <span className="hidden sm:inline">Inscripción Digital</span>
+            <span className="hidden sm:inline">Pedido Digital</span>
             <span className="sm:hidden">Digital</span>
           </TabsTrigger>
           <TabsTrigger value="presencial" className="text-base">
             <Building2 className="w-4 h-4 mr-2" />
-            <span className="hidden sm:inline">Inscripción Presencial</span>
+            <span className="hidden sm:inline">Pedido Presencial</span>
             <span className="sm:hidden">Presencial</span>
           </TabsTrigger>
           <TabsTrigger value="ruta" className="text-base">
             <Route className="w-4 h-4 mr-2" />
-            <span className="hidden sm:inline">Ruta de Formalización</span>
+            <span className="hidden sm:inline">Ruta del Pedido</span>
             <span className="sm:hidden">Ruta</span>
           </TabsTrigger>
         </TabsList>
@@ -58,9 +58,9 @@ export function RequirementsTabs() {
         <TabsContent value="digital">
           <Card className="border-0 shadow-md">
             <CardHeader className="text-center sm:text-left">
-              <CardTitle className="text-xl text-royal-blue">Flujo de Inscripción vía SUNAT Virtual</CardTitle>
+              <CardTitle className="text-xl text-royal-blue">Flujo de pedido desde el sistema</CardTitle>
               <CardDescription>
-                Proceso 100% online disponible <strong className="text-foreground">24/7</strong>.
+                Registra clientes, productos y mockups desde el panel cuando lo necesites.
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
@@ -68,20 +68,20 @@ export function RequirementsTabs() {
                 <div className="relative flex flex-col items-center p-6 text-center border rounded-xl bg-card transition-colors hover:border-royal-blue/30">
                   <div className="absolute -top-3 -right-3 bg-royal-blue text-white w-8 h-8 rounded-full flex items-center justify-center font-bold shadow-sm">1</div>
                   <Download className="w-10 h-10 mb-4 text-royal-blue" />
-                  <h4 className="font-semibold mb-2">App Personas SUNAT</h4>
-                  <p className="text-sm text-muted-foreground">Descarga la aplicación oficial desde tu tienda móvil.</p>
+                  <h4 className="font-semibold mb-2">Cliente y pedido</h4>
+                  <p className="text-sm text-muted-foreground">Registra el cliente, producto solicitado, cantidad y fecha objetivo.</p>
                 </div>
                 <div className="relative flex flex-col items-center p-6 text-center border rounded-xl bg-card transition-colors hover:border-royal-blue/30">
                   <div className="absolute -top-3 -right-3 bg-royal-blue text-white w-8 h-8 rounded-full flex items-center justify-center font-bold shadow-sm">2</div>
                   <Fingerprint className="w-10 h-10 mb-4 text-royal-blue" />
-                  <h4 className="font-semibold mb-2">Identidad Biométrica</h4>
-                  <p className="text-sm text-muted-foreground">Valida tu identidad mediante reconocimiento facial (biometría dactilar).</p>
+                  <h4 className="font-semibold mb-2">Mockup visual</h4>
+                  <p className="text-sm text-muted-foreground">Carga el diseño del cliente y valida ubicación, tamaño y color sobre el producto base.</p>
                 </div>
                 <div className="relative flex flex-col items-center p-6 text-center border rounded-xl bg-card border-success-green/20 hover:border-success-green/40 transition-colors">
                   <div className="absolute -top-3 -right-3 bg-success-green text-white w-8 h-8 rounded-full flex items-center justify-center font-bold shadow-sm">3</div>
                   <Clock className="w-10 h-10 mb-4 text-success-green" />
-                  <h4 className="font-semibold mb-2">Registrar Datos y Clave</h4>
-                  <p className="text-sm text-muted-foreground">Declara tu actividad, domicilio fiscal y genera tu Clave SOL al instante.</p>
+                  <h4 className="font-semibold mb-2">Venta y comprobante</h4>
+                  <p className="text-sm text-muted-foreground">Confirma importes, emite el comprobante y deja el pedido listo para seguimiento.</p>
                 </div>
               </div>
             </CardContent>
@@ -92,8 +92,8 @@ export function RequirementsTabs() {
           <div className="grid gap-6 md:grid-cols-2">
             <Card className="border-0 shadow-md">
               <CardHeader>
-                <CardTitle className="text-xl text-royal-blue">Documentos Necesarios</CardTitle>
-                <CardDescription>Preséntate en cualquier Centro de Servicios al Contribuyente.</CardDescription>
+                <CardTitle className="text-xl text-royal-blue">Datos necesarios</CardTitle>
+                <CardDescription>Reúne la información mínima antes de confirmar el pedido.</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4 flex flex-col justify-center">
                 <div className="flex items-start gap-4 p-3 rounded-lg bg-muted/40">
@@ -101,8 +101,8 @@ export function RequirementsTabs() {
                     <CheckCircle2 className="w-5 h-5 text-success-green" />
                   </div>
                   <div>
-                    <h4 className="font-medium text-foreground">DNI Vigente</h4>
-                    <p className="text-sm text-muted-foreground">Documento Nacional de Identidad en formato físico.</p>
+                    <h4 className="font-medium text-foreground">Datos del cliente</h4>
+                    <p className="text-sm text-muted-foreground">Nombre, documento, correo, teléfono y datos de facturación cuando aplique.</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-4 p-3 rounded-lg bg-muted/40">
@@ -110,8 +110,8 @@ export function RequirementsTabs() {
                     <CheckCircle2 className="w-5 h-5 text-success-green" />
                   </div>
                   <div>
-                    <h4 className="font-medium text-foreground">Sustento de Domicilio</h4>
-                    <p className="text-sm text-muted-foreground">Recibo de luz, agua o contrato de alquiler (obligatorio si la dirección difiere del DNI).</p>
+                    <h4 className="font-medium text-foreground">Detalle del producto</h4>
+                    <p className="text-sm text-muted-foreground">Producto base, color, cantidad, diseño, ubicación del estampado y fecha de entrega.</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-4 p-3 rounded-lg bg-muted/40">
@@ -119,8 +119,8 @@ export function RequirementsTabs() {
                     <CheckCircle2 className="w-5 h-5 text-success-green" />
                   </div>
                   <div>
-                    <h4 className="font-medium text-foreground">Carta Poder Legalizada</h4>
-                    <p className="text-sm text-muted-foreground">Solo requerido si el trámite es realizado por un tercero en tu representación.</p>
+                    <h4 className="font-medium text-foreground">Archivo del diseño</h4>
+                    <p className="text-sm text-muted-foreground">Preferiblemente PNG transparente o imagen de buena resolución para preparar el mockup.</p>
                   </div>
                 </div>
               </CardContent>
@@ -130,17 +130,17 @@ export function RequirementsTabs() {
               <CardHeader>
                 <CardTitle className="text-lg flex items-center gap-2 text-royal-blue">
                   <Building2 className="w-5 h-5" />
-                  Persona Jurídica (Empresas)
+                  Pedidos corporativos
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <Alert className="bg-background border-primary/20 shadow-sm">
                   <Info className="h-5 w-5 text-royal-blue" />
-                  <AlertTitle className="text-royal-blue font-semibold ml-2">Flujo SID-SUNARP</AlertTitle>
+                  <AlertTitle className="text-royal-blue font-semibold ml-2">Flujo recomendado</AlertTitle>
                   <AlertDescription className="text-sm mt-3 ml-2 flex flex-col gap-3">
-                    <span className="flex gap-2"><strong className="text-royal-blue">1.</strong> Constitución e inscripción en Registros Públicos vía plataforma SID-SUNARP.</span>
-                    <span className="flex gap-2"><strong className="text-royal-blue">2.</strong> Activación automática de RUC inactivo por parte de SUNAT.</span>
-                    <span className="flex gap-2"><strong className="text-royal-blue">3.</strong> Generación de Clave SOL y reactivación formal del RUC de la empresa por el representante legal.</span>
+                    <span className="flex gap-2"><strong className="text-royal-blue">1.</strong> Validar datos de la empresa y responsable de compra.</span>
+                    <span className="flex gap-2"><strong className="text-royal-blue">2.</strong> Preparar mockup y cotización con cantidades claras.</span>
+                    <span className="flex gap-2"><strong className="text-royal-blue">3.</strong> Registrar venta, entrega y comprobante asociado.</span>
                   </AlertDescription>
                 </Alert>
               </CardContent>
@@ -151,9 +151,9 @@ export function RequirementsTabs() {
         <TabsContent value="ruta">
           <Card className="border-0 shadow-md">
             <CardHeader className="text-center sm:text-left">
-              <CardTitle className="text-xl text-royal-blue">Tu Ruta hacia la Formalidad</CardTitle>
+              <CardTitle className="text-xl text-royal-blue">Tu ruta para completar un pedido</CardTitle>
               <CardDescription>
-                Sigue estos 5 pasos clave para formalizar tu negocio y acceder a todos sus beneficios.
+                Sigue estos pasos para pasar de una solicitud a un pedido listo para producción.
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -168,10 +168,10 @@ export function RequirementsTabs() {
                       <Badge variant="outline" className="text-royal-blue border-royal-blue/30 bg-royal-blue/5">
                         Paso 1
                       </Badge>
-                      <h4 className="text-lg font-bold text-foreground">Define tu Identidad</h4>
+                      <h4 className="text-lg font-bold text-foreground">Define el requerimiento</h4>
                     </div>
                     <p className="text-muted-foreground text-sm leading-relaxed">
-                      Decide si operarás como Persona Natural con Negocio (rápido, a título personal) o Persona Jurídica (empresa formal como SAC o EIRL). Esto determinará tu nivel de responsabilidad y posibilidades de financiamiento.
+                      Aclara producto, cantidad, colores, diseño, fecha de entrega y uso final del pedido. Esto evita reprocesos y cambios fuera de alcance.
                     </p>
                   </div>
                 </div>
@@ -186,20 +186,20 @@ export function RequirementsTabs() {
                       <Badge variant="outline" className="text-royal-blue border-royal-blue/30 bg-royal-blue/5">
                         Paso 2
                       </Badge>
-                      <h4 className="text-lg font-bold text-foreground">Obtén tu RUC y Clave SOL</h4>
+                      <h4 className="text-lg font-bold text-foreground">Prepara el mockup</h4>
                     </div>
                     <p className="text-muted-foreground text-sm leading-relaxed">
-                      El RUC es tu identificador de 11 dígitos. Las Personas Naturales pueden sacarlo 24/7 vía la App Personas SUNAT con validación biométrica. Las Personas Jurídicas deben hacerlo mediante el SID-SUNARP y luego activar su Clave SOL.
+                      Usa el módulo de mockups para mostrar el diseño sobre el producto base. El cliente debe validar tamaño, posición y color antes de producir.
                     </p>
                     <div className="flex flex-wrap gap-3 mt-2">
                       <Button variant="outline" size="sm" className="gap-2" asChild>
-                        <a href="https://personas.sunat.gob.pe/" target="_blank" rel="noopener noreferrer">
-                          App Personas SUNAT <ExternalLink className="h-3 w-3" />
+                        <a href="/dashboard/mockups" target="_blank" rel="noopener noreferrer">
+                          Abrir mockups <ExternalLink className="h-3 w-3" />
                         </a>
                       </Button>
                       <Button variant="outline" size="sm" className="gap-2" asChild>
-                        <a href="https://www.sunarp.gob.pe/w-sid/index.html" target="_blank" rel="noopener noreferrer">
-                          Portal SID-SUNARP <ExternalLink className="h-3 w-3" />
+                        <a href="/dashboard/productos" target="_blank" rel="noopener noreferrer">
+                          Ver productos <ExternalLink className="h-3 w-3" />
                         </a>
                       </Button>
                     </div>
@@ -216,10 +216,10 @@ export function RequirementsTabs() {
                       <Badge variant="outline" className="text-royal-blue border-royal-blue/30 bg-royal-blue/5">
                         Paso 3
                       </Badge>
-                      <h4 className="text-lg font-bold text-foreground">Elige tu Régimen Tributario</h4>
+                      <h4 className="text-lg font-bold text-foreground">Confirma costos y stock</h4>
                     </div>
                     <p className="text-muted-foreground text-sm leading-relaxed">
-                      Determina qué impuestos pagarás según tus ingresos proyectados. Puedes elegir entre: Nuevo RUS (solo emite boletas), Régimen Especial (RER), Régimen MYPE Tributario (ideal para crecimiento) o Régimen General.
+                      Revisa productos base, insumos, tiempo de producción, margen y disponibilidad antes de cerrar la venta.
                     </p>
                   </div>
                 </div>
@@ -234,10 +234,10 @@ export function RequirementsTabs() {
                       <Badge variant="outline" className="text-royal-blue border-royal-blue/30 bg-royal-blue/5">
                         Paso 4
                       </Badge>
-                      <h4 className="text-lg font-bold text-foreground">Comprobantes Electrónicos</h4>
+                      <h4 className="text-lg font-bold text-foreground">Venta y comprobante</h4>
                     </div>
                     <p className="text-muted-foreground text-sm leading-relaxed">
-                      Habilita tu sistema de facturación. Como empresa formal, debes emitir Boletas y Facturas Electrónicas para todas tus ventas. Puedes usar el facturador gratuito de SUNAT o un ERP personalizado.
+                      Registra la venta con factura, boleta o nota de venta según corresponda. Así mantienes historial comercial y control administrativo.
                     </p>
                   </div>
                 </div>
@@ -252,10 +252,10 @@ export function RequirementsTabs() {
                       <Badge variant="outline" className="text-success-green border-success-green/30 bg-success-green/5">
                         Paso 5
                       </Badge>
-                      <h4 className="text-lg font-bold text-foreground">Cumplimiento y Beneficios</h4>
+                      <h4 className="text-lg font-bold text-foreground">Entrega y seguimiento</h4>
                     </div>
                     <p className="text-muted-foreground text-sm leading-relaxed">
-                      Declara tus impuestos mensualmente. Al ser formal, la información se cruza automáticamente en el sistema financiero, abriéndote las puertas a créditos bancarios y permitiéndote venderle al Estado.
+                      Marca el pedido como entregado, guarda observaciones y conserva el historial para futuras campañas o reposiciones del cliente.
                     </p>
                     <div className="flex flex-wrap gap-3 mt-2">
                       <Button variant="outline" size="sm" className="gap-2 border-success-green/50 hover:bg-success-green/10 hover:text-success-green hover:border-success-green text-success-green" asChild>
@@ -273,39 +273,39 @@ export function RequirementsTabs() {
       </Tabs>
 
       <div className="mt-12 bg-white rounded-xl border p-6 shadow-sm">
-        <h3 className="text-xl font-bold text-royal-blue mb-4">¿Quiénes están obligados a inscribirse?</h3>
+        <h3 className="text-xl font-bold text-royal-blue mb-4">¿Qué pedidos conviene registrar?</h3>
         <Accordion type="single" collapsible className="w-full">
           <AccordionItem value="item-1">
             <AccordionTrigger className="hover:no-underline hover:text-royal-blue transition-colors text-left">
               <div className="flex items-center gap-3">
                 <FileText className="w-5 h-5 text-royal-blue shrink-0" />
-                <span className="font-medium">Existen actividades económicas vinculadas</span>
+                <span className="font-medium">Pedidos corporativos</span>
               </div>
             </AccordionTrigger>
             <AccordionContent className="text-muted-foreground text-base ml-8">
-              Si desarrollas actividades comerciales, industriales o prestas servicios de manera independiente y habitual que te generen ingresos.
+              Registra pedidos de empresas, instituciones o clientes frecuentes para conservar historial y facilitar nuevas ventas.
             </AccordionContent>
           </AccordionItem>
           <AccordionItem value="item-2">
             <AccordionTrigger className="hover:no-underline hover:text-royal-blue transition-colors text-left">
               <div className="flex items-center gap-3">
                 <MapPin className="w-5 h-5 text-royal-blue shrink-0" />
-                <span className="font-medium">Poseedores de múltiples inmuebles</span>
+                <span className="font-medium">Pedidos personalizados por lote</span>
               </div>
             </AccordionTrigger>
             <AccordionContent className="text-muted-foreground text-base ml-8">
-              Estás obligado si eres propietario de más de dos bienes inmuebles y percibes ingresos constantes por su respectivo arrendamiento o subarriendo.
+              Registra pedidos con varias unidades, tallas, colores o productos distintos para controlar stock y producción.
             </AccordionContent>
           </AccordionItem>
           <AccordionItem value="item-3">
             <AccordionTrigger className="hover:no-underline hover:text-royal-blue transition-colors text-left">
               <div className="flex items-center gap-3">
                 <IdCard className="w-5 h-5 text-royal-blue shrink-0" />
-                <span className="font-medium">Movimientos financieros elevados</span>
+                <span className="font-medium">Pedidos con entrega programada</span>
               </div>
             </AccordionTrigger>
             <AccordionContent className="text-muted-foreground text-base ml-8">
-              Si realizas movimientos bancarios consistentes, mantienes cuentas con saldos importantes o solicitas créditos comerciales considerables sin poder sustentar una actividad económica habitual formal.
+              Registra pedidos con fecha de entrega comprometida para priorizar producción y reducir retrasos.
             </AccordionContent>
           </AccordionItem>
         </Accordion>

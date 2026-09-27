@@ -1,5 +1,5 @@
 /**
- * Logo.tsx — FormaEasy
+ * Logo.tsx — Sabiduría
  *
  * Composición: ícono SVG geométrico (bloque ascendente) + tipografía bicolor
  * Prop `size`: "sm" | "md" | "lg"  (default: "md")
@@ -49,22 +49,22 @@ function LogoIcon({ className }: { className?: string }) {
       {/*
         Concepto: tres bloques/pilares que crecen de izquierda a derecha,
         como un gráfico de barras ascendente dentro de una figura de cubo.
-        Paleta: azul profundo (--foreground context) + naranja vibrante (#f97316)
+        Paleta: morado de marca + acentos cálidos de Sabiduría
       */}
 
       {/* Fondo del ícono — círculo con gradiente sutil */}
       <defs>
         <linearGradient id="fe-bg" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%"   stopColor="#1d4ed8" />   {/* blue-700 */}
-          <stop offset="100%" stopColor="#1e3a8a" />   {/* blue-900 */}
+          <stop offset="0%"   stopColor="#2f1764" />   {/* morado marca */}
+          <stop offset="100%" stopColor="#1f1147" />   {/* morado oscuro */}
         </linearGradient>
         <linearGradient id="fe-bar-accent" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%"   stopColor="#fb923c" />   {/* orange-400 */}
-          <stop offset="100%" stopColor="#ea580c" />   {/* orange-600 */}
+          <stop offset="0%"   stopColor="#f6cf5a" />   {/* dorado marca */}
+          <stop offset="100%" stopColor="#ee4b3f" />   {/* coral marca */}
         </linearGradient>
         <linearGradient id="fe-bar-blue" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%"   stopColor="#60a5fa" />   {/* blue-400 */}
-          <stop offset="100%" stopColor="#3b82f6" />   {/* blue-500 */}
+          <stop offset="0%"   stopColor="#57bfd6" />   {/* cian marca */}
+          <stop offset="100%" stopColor="#5b2f91" />   {/* violeta marca */}
         </linearGradient>
       </defs>
 
@@ -101,7 +101,7 @@ export function Logo({ size = 'md', className = '', iconOnly = false }: LogoProp
     <div
       className={`inline-flex items-center ${s.wrapper} ${className}`}
       role="img"
-      aria-label="FormaEasy — Facturador de Entrenamiento"
+      aria-label="Sabiduría — Gestión de sublimados personalizados"
     >
       {/* Ícono */}
       <LogoIcon className={`${s.icon} shrink-0`} />
@@ -110,13 +110,13 @@ export function Logo({ size = 'md', className = '', iconOnly = false }: LogoProp
       {!iconOnly && (
         <span className={`${s.text} font-extrabold leading-none tracking-tight select-none`}>
           {/* "Forma" en color foreground (se adapta a dark mode automáticamente) */}
-          <span className="text-foreground">Forma</span>
+          <span className="text-foreground">Sabidur</span>
           {/*
-            "Easy" en azul vibrante en modo claro, naranja/acento en modo oscuro.
+            "ía" en azul vibrante en modo claro, naranja/acento en modo oscuro.
             Usamos clases de Tailwind estándar para full dark mode support.
           */}
-          <span className="text-blue-600 dark:text-orange-400 font-light">
-            Easy
+          <span className="text-violet-600 dark:text-amber-300 font-light">
+            ía
           </span>
         </span>
       )}

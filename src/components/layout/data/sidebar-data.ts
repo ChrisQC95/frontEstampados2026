@@ -20,15 +20,15 @@ import { type SidebarData } from '../types'
 
 export const sidebarData: SidebarData = {
   user: {
-    name: 'Usuario MYPE',
-    email: 'admin@mype.com',
+    name: 'Usuario Sabiduría',
+    email: 'admin@sabiduria.com',
     avatar: '',
   },
   teams: [
     {
-      name: 'Mi Empresa S.A.C.',
+      name: 'Sabiduría',
       logo: Store,
-      plan: 'ERP Light',
+      plan: 'Gestión de sublimados',
     },
   ],
   navGroups: [
@@ -46,7 +46,7 @@ export const sidebarData: SidebarData = {
       title: 'Catálogos',
       items: [
         {
-          title: 'Productos y Servicios',
+          title: 'Productos',
           url: '/dashboard/productos',
           icon: Package,
         },

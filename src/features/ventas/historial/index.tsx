@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { getHistorialVentas, getReporteVentas, emitirNotaCredito } from './api'
 import { getSociosNegocio } from '../nueva-venta/api'
 import { getCuentas } from '@/features/configuracion/cuentas-bancarias/api'
@@ -107,6 +107,21 @@ const getBadgeClasses = (estado: string | null) => {
 
 const primerDiaMes = () => format(startOfMonth(new Date()), 'yyyy-MM-dd')
 const ultimoDiaMes = () => format(endOfMonth(new Date()), 'yyyy-MM-dd')
+const DEFAULT_PDF_LOGO_URL = '/images/sabiduria-logo.jpeg'
+
+const blobToDataUrl = (blob: Blob) =>
+  new Promise<string>((resolve, reject) => {
+    const reader = new FileReader()
+    reader.onloadend = () => resolve(String(reader.result))
+    reader.onerror = () => reject(new Error('No se pudo leer la imagen para el PDF.'))
+    reader.readAsDataURL(blob)
+  })
+
+const imageUrlToDataUrl = async (url: string) => {
+  const response = await fetch(url, { mode: 'cors', cache: 'force-cache' })
+  if (!response.ok) throw new Error('No se pudo cargar la imagen para el PDF.')
+  return blobToDataUrl(await response.blob())
+}
 
 // ─── Componente Principal ─────────────────────────────────────────────────────
 export function HistorialVentas() {
@@ -118,6 +133,8 @@ export function HistorialVentas() {
   const [cuentasBancarias, setCuentasBancarias] = useState<CuentaBancaria[]>([])
   const [loading, setLoading] = useState(true)
   const [exportando, setExportando] = useState(false)
+  const [pdfLogoUrl, setPdfLogoUrl] = useState('')
+  const [pdfLogoLoading, setPdfLogoLoading] = useState(false)
 
   // ─── Filtros ───────────────────────────────────────────────────────────────
   const [busqueda, setBusqueda] = useState('')
@@ -134,6 +151,38 @@ export function HistorialVentas() {
   const [ncMotivo, setNcMotivo] = useState('')
   const [ncSustento, setNcSustento] = useState('')
   const [ncLoading, setNcLoading] = useState(false)
+
+  useEffect(() => {
+    let active = true
+    const logoUrl = empresaPerfil?.logoUrl?.trim() || DEFAULT_PDF_LOGO_URL
+
+    setPdfLogoLoading(true)
+    setPdfLogoUrl('')
+
+    imageUrlToDataUrl(logoUrl)
+      .catch(() => (logoUrl === DEFAULT_PDF_LOGO_URL ? '' : imageUrlToDataUrl(DEFAULT_PDF_LOGO_URL)))
+      .then((dataUrl) => {
+        if (active) setPdfLogoUrl(dataUrl)
+      })
+      .finally(() => {
+        if (active) setPdfLogoLoading(false)
+      })
+
+    return () => {
+      active = false
+    }
+  }, [empresaPerfil?.logoUrl])
+
+  const empresaPdf = useMemo(() => ({
+    usuarioId: empresaPerfil?.usuarioId ?? dbUser?.id ?? 0,
+    ruc: empresaPerfil?.ruc ?? '',
+    razonSocial: empresaPerfil?.razonSocial ?? dbUser?.razonSocial ?? 'Sabiduría',
+    nombreComercial: empresaPerfil?.nombreComercial ?? empresaPerfil?.razonSocial ?? dbUser?.razonSocial ?? 'Sabiduría',
+    direccionFiscal: empresaPerfil?.direccionFiscal ?? '',
+    telefono: empresaPerfil?.telefono ?? '',
+    emailContacto: empresaPerfil?.emailContacto ?? '',
+    logoUrl: pdfLogoUrl,
+  }), [dbUser?.id, dbUser?.razonSocial, empresaPerfil, pdfLogoUrl])
 
   const handleEmitirNC = async () => {
     if (!ventaNcTarget || !ncMotivo || !ncSustento.trim()) {
@@ -176,8 +225,7 @@ export function HistorialVentas() {
         setVentas(ventasData.sort((a, b) => b.id - a.id))
         setSocios(sociosData)
         setCuentasBancarias(cuentasData.filter(c => c.activo))
-      } catch (error) {
-        console.error(error)
+      } catch {
         toast.error('Error al cargar el historial de ventas')
       } finally {
         setLoading(false)
@@ -187,10 +235,10 @@ export function HistorialVentas() {
   }, [currentUserId])
 
   // ─── Helpers de socio ─────────────────────────────────────────────────────
-  const getSocio = (id: number) => socios.find(s => s.id === id)
-  const getSocioNombre = (id: number) => getSocio(id)?.nombreRazonSocial ?? `ID: ${id}`
-  const getSocioDocumento = (id: number) => getSocio(id)?.numeroDocumento ?? ''
-  const getSocioDireccion = (id: number) => getSocio(id)?.direccionFiscal ?? ''
+  const getSocio = useCallback((id: number) => socios.find(s => s.id === id), [socios])
+  const getSocioNombre = useCallback((id: number) => getSocio(id)?.nombreRazonSocial ?? `ID: ${id}`, [getSocio])
+  const getSocioDocumento = useCallback((id: number) => getSocio(id)?.numeroDocumento ?? '', [getSocio])
+  const getSocioDireccion = useCallback((id: number) => getSocio(id)?.direccionFiscal ?? '', [getSocio])
 
   // ─── Filtrado en memoria ──────────────────────────────────────────────────
   const ventasFiltradas = useMemo(() => {
@@ -208,7 +256,7 @@ export function HistorialVentas() {
       const comprobante = `${v.serie}-${v.correlativo.toString().padStart(6, '0')}`.toLowerCase()
       return nombre.includes(q) || ruc.includes(q) || comprobante.includes(q)
     })
-  }, [ventas, busqueda, fechaInicio, fechaFin, socios])
+  }, [ventas, busqueda, fechaInicio, fechaFin, getSocioNombre, getSocioDocumento])
 
   // ─── KPIs del período filtrado ────────────────────────────────────────────
   const kpis = useMemo(() => {
@@ -290,8 +338,7 @@ export function HistorialVentas() {
       const mesLabel = format(new Date(fechaInicio), 'MMM_yyyy', { locale: es }).toUpperCase()
       XLSX.writeFile(workbook, `Reporte_Ventas_${mesLabel}.xlsx`)
       toast.success('Reporte Excel descargado correctamente')
-    } catch (err) {
-      console.error(err)
+    } catch {
       toast.error('Error al generar el reporte Excel')
     } finally {
       setExportando(false)
@@ -530,7 +577,7 @@ export function HistorialVentas() {
                       </div>
                     )}
                     <p className="text-base font-bold text-slate-900">
-                      {empresaPerfil?.razonSocial || dbUser?.razonSocial || 'MI EMPRESA S.A.C.'}
+                      {empresaPerfil?.nombreComercial || empresaPerfil?.razonSocial || dbUser?.razonSocial || 'Sabiduría'}
                     </p>
                     {empresaPerfil?.ruc && (
                       <p className="text-xs text-slate-500">RUC: {empresaPerfil.ruc}</p>
@@ -695,16 +742,8 @@ export function HistorialVentas() {
                         clienteNombre={getSocioNombre(ventaActiva.socioNegocioId)}
                         clienteDocumento={getSocioDocumento(ventaActiva.socioNegocioId)}
                         clienteDireccion={getSocioDireccion(ventaActiva.socioNegocioId)}
-                        empresa={empresaPerfil ?? {
-                          usuarioId: dbUser?.id ?? 0,
-                          ruc: '',
-                          razonSocial: dbUser?.razonSocial ?? '',
-                          nombreComercial: '',
-                          direccionFiscal: '',
-                          telefono: '',
-                          emailContacto: '',
-                          logoUrl: '',
-                        }}
+                        empresa={empresaPdf}
+
                         cuentasBancarias={cuentasBancarias}
                       />
                     }
@@ -715,10 +754,10 @@ export function HistorialVentas() {
                         variant="outline"
                         size="sm"
                         className="border-red-200 text-red-600 hover:bg-red-50 hover:text-red-700 w-full sm:w-auto"
-                        disabled={pdfLoading}
+                        disabled={pdfLoading || pdfLogoLoading}
                       >
                         <FileDown className="w-4 h-4 mr-2" />
-                        {pdfLoading ? 'Generando PDF...' : 'Descargar PDF'}
+                        {pdfLogoLoading ? 'Preparando logo...' : pdfLoading ? 'Generando PDF...' : 'Descargar PDF'}
                       </Button>
                     )}
                   </PDFDownloadLink>

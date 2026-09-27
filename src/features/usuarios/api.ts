@@ -29,7 +29,19 @@ async function fetchJson<T>(url: string, options: RequestInit = {}): Promise<T> 
   })
 
   if (!response.ok) {
-    const message = await response.text()
+    const text = await response.text()
+    let message = text
+    try {
+      const errorBody = JSON.parse(text) as { message?: string; error?: string; status?: number }
+      message = errorBody.message || errorBody.error || text
+    } catch {
+      message = text
+    }
+
+    if (response.status === 503) {
+      message = 'Firebase Admin no está configurado en el backend. Configura las credenciales del servidor para crear usuarios.'
+    }
+
     throw new Error(message || `Error HTTP ${response.status}`)
   }
 
@@ -82,3 +94,4 @@ export const updateUsuarioEstado = async (
     body: JSON.stringify(payload),
   })
 }
+

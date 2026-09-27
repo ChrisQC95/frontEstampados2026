@@ -7,10 +7,10 @@ export function BenefitsSection() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
           <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-            ¿Por qué formalizar tu MYPE hoy?
+            ¿Por qué centralizar tus sublimados hoy?
           </h2>
           <p className="mt-4 text-lg text-muted-foreground">
-            Descubre las ventajas exclusivas de operar en la formalidad y haz crecer tu negocio.
+            Organiza tus productos, pedidos y clientes para vender con una operación más clara y profesional.
           </p>
         </div>
 
@@ -22,22 +22,22 @@ export function BenefitsSection() {
                 <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-green-100">
                   <TrendingUp className="h-6 w-6 text-green-600" />
                 </div>
-                <CardTitle className="text-xl">Ventajas Financieras y Tributarias</CardTitle>
+                <CardTitle className="text-xl">Control Comercial</CardTitle>
               </div>
             </CardHeader>
             <CardContent>
               <ul className="space-y-3">
                 <li className="flex items-start gap-3">
                   <CheckCircle2 className="h-5 w-5 shrink-0 text-success-green mt-0.5" />
-                  <span className="text-muted-foreground">Liquidez inmediata con Factura Negociable.</span>
+                  <span className="text-muted-foreground">Seguimiento de ventas, boletas, facturas y notas de venta.</span>
                 </li>
                 <li className="flex items-start gap-3">
                   <CheckCircle2 className="h-5 w-5 shrink-0 text-success-green mt-0.5" />
-                  <span className="text-muted-foreground">Recuperación anticipada del IGV en compras/exportaciones.</span>
+                  <span className="text-muted-foreground">Visibilidad de ingresos por campañas y temporadas.</span>
                 </li>
                 <li className="flex items-start gap-3">
                   <CheckCircle2 className="h-5 w-5 shrink-0 text-success-green mt-0.5" />
-                  <span className="text-muted-foreground">Crédito tributario por capacitar a tu personal.</span>
+                  <span className="text-muted-foreground">Mejor coordinación entre ventas, administración y marketing.</span>
                 </li>
               </ul>
             </CardContent>
@@ -50,18 +50,18 @@ export function BenefitsSection() {
                 <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-blue-100">
                   <ShieldCheck className="h-6 w-6 text-blue-600" />
                 </div>
-                <CardTitle className="text-xl">Compras Estatales</CardTitle>
+                <CardTitle className="text-xl">Clientes Corporativos</CardTitle>
               </div>
             </CardHeader>
             <CardContent>
               <ul className="space-y-3">
                 <li className="flex items-start gap-3">
                   <CheckCircle2 className="h-5 w-5 shrink-0 text-success-green mt-0.5" />
-                  <span className="text-muted-foreground">El Estado reserva el 40% de sus compras para las MYPE.</span>
+                  <span className="text-muted-foreground">Gestiona empresas que solicitan merchandising, uniformes o regalos personalizados.</span>
                 </li>
                 <li className="flex items-start gap-3">
                   <CheckCircle2 className="h-5 w-5 shrink-0 text-success-green mt-0.5" />
-                  <span className="text-muted-foreground">Facilidades para presentar garantías en contratos públicos.</span>
+                  <span className="text-muted-foreground">Mantén datos de facturación y contacto listos para cada pedido.</span>
                 </li>
               </ul>
             </CardContent>
@@ -74,18 +74,18 @@ export function BenefitsSection() {
                 <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-orange-100">
                   <Rocket className="h-6 w-6 text-orange-600" />
                 </div>
-                <CardTitle className="text-xl">Crecimiento Ágil</CardTitle>
+                <CardTitle className="text-xl">Producción Flexible</CardTitle>
               </div>
             </CardHeader>
             <CardContent>
               <ul className="space-y-3">
                 <li className="flex items-start gap-3">
                   <CheckCircle2 className="h-5 w-5 shrink-0 text-success-green mt-0.5" />
-                  <span className="text-muted-foreground">Constitución 100% online vía SID-SUNARP.</span>
+                  <span className="text-muted-foreground">Trabaja pedidos pequeños o por lote sin perder control de stock.</span>
                 </li>
                 <li className="flex items-start gap-3">
                   <CheckCircle2 className="h-5 w-5 shrink-0 text-success-green mt-0.5" />
-                  <span className="text-muted-foreground">Acceso rápido a mercados internacionales con Exporta Fácil.</span>
+                  <span className="text-muted-foreground">Prepara cotizaciones, mockups y ventas según cada campaña.</span>
                 </li>
               </ul>
             </CardContent>
@@ -98,18 +98,18 @@ export function BenefitsSection() {
                 <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-red-100">
                   <HeartPulse className="h-6 w-6 text-red-600" />
                 </div>
-                <CardTitle className="text-xl">Protección Laboral y Salud</CardTitle>
+                <CardTitle className="text-xl">Marketing Visual</CardTitle>
               </div>
             </CardHeader>
             <CardContent>
               <ul className="space-y-3">
                 <li className="flex items-start gap-3">
                   <CheckCircle2 className="h-5 w-5 shrink-0 text-success-green mt-0.5" />
-                  <span className="text-muted-foreground">Cobertura de salud (SIS) subsidiada al 50% por el Estado.</span>
+                  <span className="text-muted-foreground">Crea prototipos visuales para validar diseños antes de producir.</span>
                 </li>
                 <li className="flex items-start gap-3">
                   <CheckCircle2 className="h-5 w-5 shrink-0 text-success-green mt-0.5" />
-                  <span className="text-muted-foreground">Acompañamiento del Ministerio de Trabajo sin multas inmediatas.</span>
+                  <span className="text-muted-foreground">Reutiliza productos base, colores y diseños para acelerar propuestas.</span>
                 </li>
               </ul>
             </CardContent>

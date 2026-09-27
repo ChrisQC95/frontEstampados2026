@@ -62,6 +62,36 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const appName = empresaPerfil?.nombreComercial?.trim()
+      || empresaPerfil?.razonSocial?.trim()
+      || "Sabiduría";
+    const iconUrl = empresaPerfil?.logoUrl?.trim() || "/images/sabiduria-logo.jpeg";
+
+    document.title = appName;
+
+    const updateIcon = (selector: string, rel: string) => {
+      let link = document.querySelector<HTMLLinkElement>(selector);
+      if (!link) {
+        link = document.createElement("link");
+        link.rel = rel;
+        document.head.appendChild(link);
+      }
+      link.href = iconUrl;
+      const normalizedIconUrl = iconUrl.toLowerCase();
+      link.type = normalizedIconUrl.startsWith("data:image/")
+        ? normalizedIconUrl.slice(5, normalizedIconUrl.indexOf(";"))
+        : normalizedIconUrl.includes(".svg")
+          ? "image/svg+xml"
+          : normalizedIconUrl.includes(".jpg") || normalizedIconUrl.includes(".jpeg")
+            ? "image/jpeg"
+            : "image/png";
+    };
+
+    updateIcon("link[rel='icon']", "icon");
+    updateIcon("link[rel='apple-touch-icon']", "apple-touch-icon");
+  }, [empresaPerfil?.nombreComercial, empresaPerfil?.razonSocial, empresaPerfil?.logoUrl]);
+
+  useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       setLoading(true);
       setUser(currentUser);

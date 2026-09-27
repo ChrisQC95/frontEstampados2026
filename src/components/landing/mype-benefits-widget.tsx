@@ -17,7 +17,7 @@ const tips = [
     glow: "shadow-violet-200 dark:shadow-violet-900",
     bg: "from-violet-50 to-violet-100/60 dark:from-violet-900/30 dark:to-violet-800/20",
     border: "border-violet-200/60 dark:border-violet-700/40",
-    text: "¿Sabías que con el Régimen MYPE Tributario pagas solo el 1% de tus ingresos mensuales si vendes menos de 300 UIT? (UIT 2025 = S/ 5,350)."
+    text: "Analiza tus ventas por temporada para preparar stock de polos, tazas y gorras antes de campañas corporativas."
   },
   {
     icon: HeartPulse,
@@ -25,7 +25,7 @@ const tips = [
     glow: "shadow-rose-200 dark:shadow-rose-900",
     bg: "from-rose-50 to-rose-100/60 dark:from-rose-900/30 dark:to-rose-800/20",
     border: "border-rose-200/60 dark:border-rose-700/40",
-    text: "Seguro a mitad de precio: Al registrarte como Microempresa, el Estado subsidia el 50% del SIS para ti y tu equipo."
+    text: "Un mockup claro ayuda al cliente a aprobar el diseño antes de producir, reduciendo reprocesos."
   },
   {
     icon: Banknote,
@@ -33,7 +33,7 @@ const tips = [
     glow: "shadow-emerald-200 dark:shadow-emerald-900",
     bg: "from-emerald-50 to-emerald-100/60 dark:from-emerald-900/30 dark:to-emerald-800/20",
     border: "border-emerald-200/60 dark:border-emerald-700/40",
-    text: "Tus facturas valen oro: Con la Factura Negociable puedes hacer Factoring en bancos y obtener liquidez inmediata."
+    text: "Mantener productos base ordenados acelera cotizaciones y mejora la respuesta comercial."
   },
   {
     icon: Building2,
@@ -41,7 +41,7 @@ const tips = [
     glow: "shadow-blue-200 dark:shadow-blue-900",
     bg: "from-blue-50 to-blue-100/60 dark:from-blue-900/30 dark:to-blue-800/20",
     border: "border-blue-200/60 dark:border-blue-700/40",
-    text: "El Estado es tu mejor cliente: Las instituciones públicas deben destinar el 40% de sus compras exclusivamente a las MYPE."
+    text: "Los clientes corporativos suelen repetir pedidos si guardas su historial, colores y diseños frecuentes."
   },
   {
     icon: PlaneTakeoff,
@@ -49,7 +49,7 @@ const tips = [
     glow: "shadow-amber-200 dark:shadow-amber-900",
     bg: "from-amber-50 to-amber-100/60 dark:from-amber-900/30 dark:to-amber-800/20",
     border: "border-amber-200/60 dark:border-amber-700/40",
-    text: "Exportar es fácil: Con Exporta Fácil puedes enviar productos al extranjero mediante Serpost con trámites simplificados."
+    text: "Planifica campañas para fechas clave como aniversarios, ferias, fiestas patrias y cierre de año."
   }
 ]
 
@@ -76,7 +76,7 @@ export function MYPEBenefitsWidget() {
               d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z" />
           </svg>
           <span className="text-[10px] font-semibold tracking-widest text-muted-foreground uppercase">
-            Tips para tu Negocio
+            Tips para sublimados
           </span>
         </div>
 

@@ -322,7 +322,7 @@ export const FacturaPDF = ({
 
             {/* Razón Social */}
             <Text style={styles.empresaNombre}>
-              {empresa.razonSocial || 'MI EMPRESA S.A.C.'}
+              {empresa.nombreComercial || empresa.razonSocial || 'Sabiduría'}
             </Text>
 
             {/* Dirección Fiscal */}
@@ -473,7 +473,7 @@ export const FacturaPDF = ({
 
         {/* ── NOTA FINAL ──────────────────────────────────────────────── */}
         <Text style={styles.notaFinal}>
-          sistema de prueba Konecta.erp, para el sistema completo contactar a +51 991 060 595
+          Sabiduría - comprobante generado desde el sistema de gestión de sublimados
         </Text>
       </Page>
     </Document>

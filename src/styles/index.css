@@ -20,7 +20,7 @@
   --popover-foreground: oklch(0.2 0.02 240);
   
   /* COLOR PRINCIPAL (Tu Azul Institucional) */
-  --primary: oklch(0.5 0.2 255);
+  --primary: oklch(0.31 0.15 300);
   --primary-foreground: oklch(1 0 0);
   
   /* Secundarios y Acentos */
@@ -36,7 +36,7 @@
   --destructive-foreground: oklch(0.577 0.245 27.325);
   --border: oklch(0.88 0.02 240);
   --input: oklch(0.92 0.01 240);
-  --ring: oklch(0.5 0.2 255);
+  --ring: oklch(0.42 0.17 300);
   
   /* Gráficos del Dashboard */
   --chart-1: oklch(0.646 0.222 41.116);
@@ -59,10 +59,15 @@
   --sidebar-ring: oklch(0.708 0 0);
   
   /* TUS COLORES DE MARCA PERSONALIZADOS */
-  --royal-blue: oklch(0.45 0.22 255);
-  --sky-blue: oklch(0.75 0.12 230);
-  --vibrant-orange: oklch(0.7 0.18 45);
+  --royal-blue: oklch(0.31 0.15 300);
+  --sky-blue: oklch(0.68 0.12 210);
+  --vibrant-orange: oklch(0.72 0.19 48);
   --success-green: oklch(0.6 0.18 145);
+  --sabiduria-purple: #2f1764;
+  --sabiduria-purple-soft: #5b2f91;
+  --sabiduria-gold: #f6cf5a;
+  --sabiduria-coral: #ee4b3f;
+  --sabiduria-cyan: #57bfd6;
 }
 
 .dark {
@@ -112,6 +117,11 @@
   --color-sky-blue: var(--sky-blue);
   --color-vibrant-orange: var(--vibrant-orange);
   --color-success-green: var(--success-green);
+  --color-sabiduria-purple: var(--sabiduria-purple);
+  --color-sabiduria-purple-soft: var(--sabiduria-purple-soft);
+  --color-sabiduria-gold: var(--sabiduria-gold);
+  --color-sabiduria-coral: var(--sabiduria-coral);
+  --color-sabiduria-cyan: var(--sabiduria-cyan);
   
   /* Mapeo de Colores del Sistema */
   --color-background: var(--background);
@@ -243,5 +253,55 @@
   }
   to {
     height: 0;
+  }
+}
+/* =========================================
+   5. RESPONSIVE HARDENING GLOBAL
+   ========================================= */
+@layer base {
+  html,
+  body,
+  #root {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  body {
+    overflow-x: hidden;
+  }
+
+  img,
+  video,
+  canvas,
+  svg {
+    max-width: 100%;
+  }
+
+  table {
+    width: 100%;
+  }
+
+  th,
+  td {
+    overflow-wrap: anywhere;
+  }
+}
+
+@media (max-width: 640px) {
+  [role='dialog'] {
+    max-width: calc(100vw - 1rem) !important;
+  }
+
+  [data-radix-scroll-area-viewport] > div {
+    min-width: 0 !important;
+  }
+
+  .recharts-wrapper,
+  .recharts-surface {
+    max-width: 100% !important;
+  }
+
+  .container {
+    padding-inline: 1rem;
   }
 }
