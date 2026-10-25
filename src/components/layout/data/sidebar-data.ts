@@ -1,11 +1,13 @@
 import {
   Store,
+  ShoppingBag,
   LayoutDashboard,
   Package,
   Users,
   FileText,
   PlusCircle,
   History,
+  ClipboardList,
   Settings,
   UserCog,
   Tags,
@@ -49,6 +51,11 @@ export const sidebarData: SidebarData = {
           title: 'Productos',
           url: '/dashboard/productos',
           icon: Package,
+        },
+        {
+          title: 'Productos de Tienda',
+          url: '/dashboard/tienda-productos',
+          icon: ShoppingBag,
         },
         {
           title: 'Categorías',
@@ -100,6 +107,16 @@ export const sidebarData: SidebarData = {
               icon: PlusCircle,
             },
             {
+              title: 'Por facturar',
+              url: '/dashboard/ventas/por-facturar',
+              icon: ClipboardList,
+            },
+            {
+              title: 'Pedidos de tienda',
+              url: '/dashboard/ventas/pedidos-tienda',
+              icon: ShoppingBag,
+            },
+            {
               title: 'Historial de Ventas',
               url: '/dashboard/ventas/historial',
               icon: History,
@@ -136,4 +153,6 @@ export const sidebarData: SidebarData = {
     },
   ],
 }
+
+
 

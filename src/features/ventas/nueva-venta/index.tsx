@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react'
+import { useState, useEffect, useMemo, useRef } from 'react'
 import { useAuth } from '@/context/AuthContext'
 import {
   getProductos,
@@ -7,6 +7,7 @@ import {
   getVehiculos,
   getConductores,
   registrarVenta,
+  getPedidosSeleccionados,
 } from './api'
 import type {
   Producto,
@@ -41,13 +42,14 @@ import { toast } from 'sonner'
 import { Trash2, Check, ChevronsUpDown, Save } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
-export default function NuevaVenta() {
+export default function NuevaVenta({ pedidosQuery = '' }: { pedidosQuery?: string }) {
   const { dbUser } = useAuth()
   const usuarioId = dbUser?.id
 
   // ─── ESTADOS DE CATÁLOGOS ─────────────────────────────────────────────
   const [productos, setProductos] = useState<Producto[]>([])
   const [socios, setSocios] = useState<SocioNegocio[]>([])
+  const [clientePedido, setClientePedido] = useState<SocioNegocio | null>(null)
   const [series, setSeries] = useState<Serie[]>([])
   const [vehiculos, setVehiculos] = useState<Vehiculo[]>([])
   const [conductores, setConductores] = useState<Conductor[]>([])
@@ -72,6 +74,11 @@ export default function NuevaVenta() {
 
   // ─── ESTADO DE DETALLES (Sección C) ───────────────────────────────────
   const [detalles, setDetalles] = useState<VentaDetalleRequestDTO[]>([])
+  const [pedidoTiendaIds, setPedidoTiendaIds] = useState<number[]>([])
+  const [pedidoFacturacionLoading, setPedidoFacturacionLoading] = useState(false)
+  const [pedidoCargaError, setPedidoCargaError] = useState('')
+  const pedidoLoadKey = useRef('')
+  const catalogosPedidoRef = useRef<{ productos: Producto[]; socios: SocioNegocio[] }>({ productos: [], socios: [] })
 
   // ─── ESTADOS DE GUÍA (Sección D) ──────────────────────────────────────
   const [generarGuia, setGenerarGuia] = useState(false)
@@ -99,7 +106,9 @@ export default function NuevaVenta() {
           getConductores(usuarioId),
         ])
         setProductos(prodRes || [])
-        setSocios(socRes?.filter(s => s.tipoSocio === 'C' || s.tipoSocio === 'A') || [])
+        const sociosDisponibles = socRes?.filter(s => s.tipoSocio === 'C' || s.tipoSocio === 'A') || []
+        catalogosPedidoRef.current = { productos: prodRes || [], socios: sociosDisponibles }
+        setSocios(sociosDisponibles)
         setSeries(serRes?.filter(s => s.activo) || [])
         setVehiculos(vehRes || [])
         setConductores(condRes || [])
@@ -112,6 +121,125 @@ export default function NuevaVenta() {
     }
     loadData()
   }, [usuarioId])
+
+  useEffect(() => {
+    // TanStack serializes search strings as JSON (e.g. pedidos="20"). Accept
+    // both its parsed route value and the raw query in case a link was opened directly.
+    const rawQueryValue = new URLSearchParams(window.location.search).get('pedidos') ?? ''
+    const normalizeIds = (value: string) => {
+      let normalized = value.trim()
+      try {
+        const parsed: unknown = JSON.parse(normalized)
+        if (typeof parsed === 'string') normalized = parsed
+      } catch {
+        // A plain comma-separated value is already usable.
+      }
+      return normalized
+    }
+    const queryIds = normalizeIds(pedidosQuery) || normalizeIds(rawQueryValue)
+    const ids = queryIds.split(',').map((id) => Number(id.trim())).filter((id) => Number.isInteger(id) && id > 0)
+    if (!ids.length || isLoading) return
+    const key = [...ids].sort((a, b) => a - b).join(',')
+    if (pedidoLoadKey.current === key) return
+    pedidoLoadKey.current = key
+    let cancelled = false
+    setPedidoFacturacionLoading(true)
+    setPedidoCargaError('')
+    getPedidosSeleccionados(ids).then((pedidos) => {
+      if (cancelled) return
+      const cliente = pedidos[0]
+      if (!cliente) return
+      const { productos: productosDisponibles, socios: sociosDisponibles } = catalogosPedidoRef.current
+      const comprobante = cliente.tipoComprobante?.toUpperCase() === 'FACTURA' ? '1' : '2'
+      setTipoComprobante(comprobante)
+      setTipoPago('1')
+      setFechaVencimiento(new Date().toISOString().split('T')[0])
+      setPedidoTiendaIds(pedidos.map((pedido) => pedido.pedidoId))
+      const matchingSocio = sociosDisponibles.find((s) => s.tipoDocumento === cliente.tipoDocumento && s.numeroDocumento === cliente.numeroDocumento)
+      if (matchingSocio) {
+        setClientePedido(null)
+        setClienteId(String(matchingSocio.id))
+      }
+      else {
+        const syntheticClient: SocioNegocio = {
+          id: 0, tipoSocio: 'C', tipoDocumento: cliente.tipoDocumento,
+          numeroDocumento: cliente.numeroDocumento, nombreRazonSocial: cliente.nombreFacturacion,
+          direccionFiscal: cliente.direccionFiscal ?? undefined,
+        }
+        setClientePedido(syntheticClient)
+        setClienteId('0')
+      }
+      const erroresCatalogo: string[] = []
+      const lineasPedido = pedidos.flatMap((pedido) => {
+        const lines = pedido.items.flatMap((item) => {
+          const itemLines: VentaDetalleRequestDTO[] = []
+          const product = productosDisponibles.find((candidate) => candidate.id === item.productoServicioId)
+          if (!product) {
+            erroresCatalogo.push(`Producto “${item.productoNombre}” no encontrado en el catálogo.`)
+            return itemLines
+          }
+          const addLine = (catalogProduct: Producto, price: number, name: string, quantity = item.cantidad, talla?: string | null) => {
+            const unit = Number(price) || 0
+            const value = catalogProduct.afectoIgv ? unit / 1.18 : unit
+            const total = unit * quantity
+            itemLines.push({
+              productoId: catalogProduct.id, productoNombre: name || catalogProduct.nombre,
+              talla: talla || null, unidadMedida: catalogProduct.unidadMedida, cantidad: quantity,
+              precioUnitario: Number(unit.toFixed(2)), valorUnitario: Number(value.toFixed(2)),
+              igvLinea: catalogProduct.afectoIgv ? Number(((unit - value) * quantity).toFixed(2)) : 0,
+              totalLinea: Number(total.toFixed(2)),
+            })
+          }
+          addLine(product, item.precioProducto, item.productoNombre, item.cantidad, item.talla)
+          if (item.servicioEstampadoId && item.precioServicio > 0) {
+            const service = productosDisponibles.find((candidate) => candidate.id === item.servicioEstampadoId)
+            if (service) addLine(service, item.precioServicio, item.servicioNombre || service.nombre)
+            else erroresCatalogo.push(`Servicio “${item.servicioNombre || 'de estampado'}” no encontrado en el catálogo.`)
+          }
+          return itemLines
+        })
+        const shipping = Number(pedido.costoEnvio) || 0
+        if (shipping > 0) {
+          const shippingProduct = productosDisponibles.find((candidate) => candidate.id === pedido.productoServicioEnvioId)
+          if (!shippingProduct) erroresCatalogo.push(`No se encontró en el catálogo el servicio de envío ${pedido.nombreServicioEnvio || ''} (${pedido.codigo}).`)
+          else {
+            const unit = shipping
+            const value = shippingProduct.afectoIgv ? unit / 1.18 : unit
+            lines.push({
+              productoId: shippingProduct.id,
+              productoNombre: pedido.nombreServicioEnvio || shippingProduct.nombre,
+              talla: null,
+              unidadMedida: shippingProduct.unidadMedida,
+              cantidad: 1,
+              precioUnitario: Number(unit.toFixed(2)),
+              valorUnitario: Number(value.toFixed(2)),
+              igvLinea: shippingProduct.afectoIgv ? Number((unit - value).toFixed(2)) : 0,
+              totalLinea: Number(unit.toFixed(2)),
+            })
+          }
+        }
+        return lines
+      })
+      setDetalles(lineasPedido)
+      if (erroresCatalogo.length) {
+        const mensaje = [...new Set(erroresCatalogo)].join(' ')
+        setPedidoCargaError(mensaje)
+        toast.error(mensaje)
+      }
+      setDirLlegada(cliente.direccionEntrega || '')
+      setUbiLlegada(cliente.ubigeoEntrega || '')
+      // Show the prefilled delivery data in the guide section immediately.
+      // Vehicle, driver, weight and origin still need to be supplied by the operator.
+      setGenerarGuia(Boolean(cliente.direccionEntrega || cliente.ubigeoEntrega))
+      setObservacion(`Pedidos de tienda: ${pedidos.map((p) => p.codigo).join(', ')}`)
+      toast.success(`${pedidos.length} pedido(s) cargados en la venta.`)
+    }).catch((error) => {
+      pedidoLoadKey.current = ''
+      toast.error(error instanceof Error ? error.message : 'No se pudieron cargar los pedidos')
+    })
+      .finally(() => { if (!cancelled) setPedidoFacturacionLoading(false) })
+    return () => { cancelled = true }
+  }, [isLoading, pedidosQuery])
 
   // ─── VARIABLE AUXILIAR ───────────────────────────────────────────────
   const esNotaDeVenta = tipoComprobante === '3'
@@ -247,6 +375,7 @@ export default function NuevaVenta() {
   }, [seriesDisponibles, serieId])
 
   const clienteSeleccionado = socios.find(s => s.id.toString() === clienteId)
+    ?? (clienteId === '0' ? clientePedido ?? undefined : undefined)
   const isFacturaValid = tipoComprobante === '1'
     ? clienteSeleccionado?.tipoDocumento === '06' && clienteSeleccionado?.numeroDocumento.length === 11
     : true
@@ -254,7 +383,7 @@ export default function NuevaVenta() {
   // Nota de Venta: el cliente es opcional (puede ir sin cliente seleccionado)
   const clienteRequerido = esNotaDeVenta ? true : !!clienteId
 
-  const canSubmit = detalles.length > 0 && clienteRequerido && serieId && isFacturaValid &&
+  const canSubmit = detalles.length > 0 && !pedidoCargaError && clienteRequerido && serieId && isFacturaValid &&
     (!generarGuia || (vehiculoId && conductorId && pesoBruto && dirPartida && ubiPartida && dirLlegada && ubiLlegada))
 
   const handleGuardar = async () => {
@@ -282,6 +411,7 @@ export default function NuevaVenta() {
         usuarioId,
         // Nota de Venta: si no hay cliente seleccionado, envía 0 (sin cliente)
         socioNegocioId: clienteId ? Number(clienteId) : 0,
+        ...(pedidoTiendaIds.length ? { pedidoTiendaIds } : {}),
         tipoComprobanteId: Number(tipoComprobante),
         tipoOperacionId: 1, // Venta Interna
         monedaId: Number(moneda),
@@ -308,11 +438,13 @@ export default function NuevaVenta() {
 
       // Limpiar formulario
       setDetalles([])
+      setPedidoTiendaIds([])
       setClienteId('')
       setSerieId('')
       setGenerarGuia(false)
       setObservacion('')
       setSelectedProductId(null)
+      if (pedidoTiendaIds.length) window.history.replaceState({}, '', window.location.pathname)
 
     } catch (error: any) {
       toast.error(error.message || 'Error al guardar la venta')
@@ -329,6 +461,13 @@ export default function NuevaVenta() {
         <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900">Nueva Venta</h1>
         <p className="text-slate-500 mt-1 text-sm">Registra un comprobante: factura, boleta o nota de venta.</p>
       </div>
+      {(pedidoTiendaIds.length > 0 || pedidoFacturacionLoading) && (
+        <div className="rounded-xl border border-violet-200 bg-violet-50 p-4 text-sm text-violet-950">
+          <p className="font-semibold">{pedidoFacturacionLoading ? 'Cargando pedidos para facturar…' : 'Venta preparada desde pedidos de tienda'}</p>
+          {!pedidoFacturacionLoading && <p className="mt-1">Pedidos {pedidoTiendaIds.join(', ')}: cliente, comprobante, productos y dirección de entrega precargados. Revisa los datos antes de guardar.</p>}
+          {pedidoCargaError && <p className="mt-2 font-medium text-red-700">{pedidoCargaError} No emitas el comprobante hasta corregir el catálogo.</p>}
+        </div>
+      )}
 
       {/* LAYOUT: 1 col en móvil, asimétrico 12 cols en desktop */}
       <div className="flex flex-col lg:grid lg:grid-cols-12 gap-6 items-start">
@@ -349,12 +488,20 @@ export default function NuevaVenta() {
                 {/* Cliente */}
                 <div className="space-y-1.5 md:col-span-2">
                   <Label className="text-xs font-semibold text-slate-600">Cliente</Label>
-                  <Select value={clienteId} onValueChange={setClienteId}>
+                  <Select value={clienteId} onValueChange={(value) => {
+                    setClienteId(value)
+                    if (value !== '0') setClientePedido(null)
+                  }}>
                     <SelectTrigger className="h-9">
                       <SelectValue placeholder="-- Seleccione su Cliente --" />
                     </SelectTrigger>
                     <SelectContent>
-                      {socios.map(s => (
+                      {clientePedido && clienteId === '0' && (
+                        <SelectItem key="pedido-cliente" value="0">
+                          {clientePedido.numeroDocumento} - {clientePedido.nombreRazonSocial} (pedido de tienda)
+                        </SelectItem>
+                      )}
+                      {socios.filter(s => s.id !== 0).map(s => (
                         <SelectItem key={s.id} value={s.id.toString()}>
                           {s.numeroDocumento} - {s.nombreRazonSocial}
                         </SelectItem>
@@ -566,7 +713,7 @@ export default function NuevaVenta() {
                       return (
                         <TableRow key={idx} className={`border-b last:border-0 ${idx % 2 === 0 ? 'bg-white' : 'bg-slate-50/40'} hover:bg-indigo-50/30`}>
                           <TableCell className="text-center text-xs text-slate-400 py-3">{idx + 1}</TableCell>
-                          <TableCell className="text-sm font-medium text-slate-800 py-3">{item.productoNombre}</TableCell>
+                          <TableCell className="text-sm font-medium text-slate-800 py-3">{item.productoNombre}{item.talla && <span className="ml-2 text-xs font-normal text-slate-500">Talla {item.talla}</span>}</TableCell>
                           <TableCell className="text-center py-3">
                             <Badge variant={esAfecto ? 'default' : 'secondary'} className="text-[9px] uppercase px-1.5 py-0">
                               {esAfecto ? 'Afecto' : 'Inafecto'}
@@ -681,7 +828,7 @@ export default function NuevaVenta() {
                   <div className="px-5 py-3 border-b border-slate-100 max-h-40 overflow-y-auto space-y-2">
                     {detalles.map((item, idx) => (
                       <div key={idx} className="flex justify-between items-start text-xs gap-2">
-                        <span className="text-slate-600 flex-1 leading-tight">{item.productoNombre}</span>
+                        <span className="text-slate-600 flex-1 leading-tight">{item.productoNombre}{item.talla && <span className="block text-[10px] text-slate-400">Talla {item.talla}</span>}</span>
                         <span className="text-slate-800 font-semibold font-mono whitespace-nowrap">
                           {item.cantidad} × {item.precioUnitario.toFixed(2)}
                         </span>

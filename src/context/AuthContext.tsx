@@ -17,10 +17,10 @@ interface DbUser {
   id: number;
   firebaseUid: string;
   email: string;
-  nombre?: string;
+  nombre?: string | null;
   ruc?: string;
   razonSocial?: string;
-  rol?: DbRole;
+  rol?: DbRole | null;
   activo?: boolean;
 }
 

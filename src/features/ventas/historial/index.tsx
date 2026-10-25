@@ -683,7 +683,7 @@ export function HistorialVentas() {
                             className={`border-b border-slate-100 last:border-0 ${idx % 2 === 0 ? 'bg-white' : 'bg-slate-50/60'}`}
                           >
                             <TableCell className="text-center text-xs text-slate-400 py-3">{idx + 1}</TableCell>
-                            <TableCell className="text-sm text-slate-800 font-medium py-3">{d.productoNombre}</TableCell>
+                            <TableCell className="text-sm text-slate-800 font-medium py-3">{d.productoNombre}{d.talla && <span className="ml-2 text-xs font-normal text-slate-500">Talla {d.talla}</span>}</TableCell>
                             <TableCell className="text-center text-xs text-slate-500 py-3">{d.unidadMedida}</TableCell>
                             <TableCell className="text-right text-sm text-slate-700 py-3">{d.cantidad}</TableCell>
                             <TableCell className="text-right text-sm text-slate-700 py-3 font-mono">{d.precioUnitario.toFixed(2)}</TableCell>

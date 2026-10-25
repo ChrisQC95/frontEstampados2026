@@ -406,7 +406,7 @@ export const FacturaPDF = ({
             <View key={d.id} style={[styles.tableRow, i % 2 !== 0 ? styles.tableRowZebra : {}]}>
               <Text style={styles.colCant}>{d.cantidad}</Text>
               <Text style={styles.colUnd}>{d.unidadMedida}</Text>
-              <Text style={styles.colDesc}>{d.productoNombre}</Text>
+              <Text style={styles.colDesc}>{d.productoNombre}{d.talla ? ` · Talla ${d.talla}` : ''}</Text>
               <Text style={styles.colPU}>{d.precioUnitario.toFixed(2)}</Text>
               <Text style={styles.colTotal}>{d.totalLinea.toFixed(2)}</Text>
             </View>

@@ -12,6 +12,8 @@ import { Header } from '@/components/layout/header'
 import { ThemeSwitch } from '@/components/theme-switch'
 import { ProfileDropdown } from '@/components/profile-dropdown'
 
+const CLIENTE_TIENDA = 'CLIENTE_TIENDA'
+
 const CONTENT_LAYOUT_CLASSES = [
   '@container/content',
   'has-data-[layout=fixed]:h-svh',
@@ -24,14 +26,22 @@ type AuthenticatedLayoutProps = {
 
 export function AuthenticatedLayout({ children }: AuthenticatedLayoutProps) {
   const defaultOpen = getCookie('sidebar_state') !== 'false'
-  const { loading, sessionReady } = useAuth()
+  const { loading, sessionReady, dbUser } = useAuth()
   const navigate = useNavigate()
+  const isStoreCustomer = dbUser?.rol?.codigo === CLIENTE_TIENDA
 
   useEffect(() => {
-    if (!loading && !sessionReady) {
-      navigate({ to: '/' })
+    if (loading) return
+
+    if (!sessionReady) {
+      navigate({ to: '/login' })
+      return
     }
-  }, [loading, sessionReady, navigate])
+
+    if (isStoreCustomer) {
+      navigate({ to: '/tienda' })
+    }
+  }, [loading, sessionReady, isStoreCustomer, navigate])
 
   if (loading) {
     return (
@@ -44,7 +54,7 @@ export function AuthenticatedLayout({ children }: AuthenticatedLayoutProps) {
     )
   }
 
-  if (!sessionReady) {
+  if (!sessionReady || isStoreCustomer) {
     return null
   }
 
@@ -68,4 +78,3 @@ export function AuthenticatedLayout({ children }: AuthenticatedLayoutProps) {
     </SearchProvider>
   )
 }
-

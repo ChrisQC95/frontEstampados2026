@@ -8,7 +8,10 @@ import { AuthModal } from "@/components/auth/AuthModal"
 import { Button } from "@/components/ui/button"
 import { useAuth } from "@/context/AuthContext"
 
+const CLIENTE_TIENDA = "CLIENTE_TIENDA"
+
 const navLinks = [
+  { label: "Tienda", href: "/tienda" },
   { label: "Nosotros", href: "/#nosotros" },
   { label: "Misión y Visión", href: "/#mision-vision" },
   { label: "FODA", href: "/#foda" },
@@ -21,18 +24,26 @@ export function Navbar() {
   const [authModalOpen, setAuthModalOpen] = useState(false)
   const { user, dbUser, loading, sessionReady, signOut } = useAuth()
   const navigate = useNavigate()
+  const isStoreCustomer = dbUser?.rol?.codigo === CLIENTE_TIENDA
   const displayName = dbUser?.nombre || user?.displayName || dbUser?.email?.split('@')[0] || user?.email?.split('@')[0] || 'Usuario'
 
-  const handlePanelClick = () => {
-    if (sessionReady) {
-      navigate({ to: "/dashboard" })
+  const openStoreAuth = () => {
+    setMobileMenuOpen(false)
+    setAuthModalOpen(true)
+  }
+
+  const handlePrimaryAction = () => {
+    setMobileMenuOpen(false)
+
+    if (!sessionReady) {
+      setAuthModalOpen(true)
       return
     }
 
-    if (!loading) {
-      setAuthModalOpen(true)
-    }
+    navigate({ to: isStoreCustomer ? "/tienda" : "/dashboard" })
   }
+
+  const panelLabel = sessionReady && isStoreCustomer ? "Ir a tienda" : "Ir al Panel"
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-purple-950/10 bg-white/92 shadow-sm backdrop-blur-xl supports-[backdrop-filter]:bg-white/82">
@@ -65,13 +76,13 @@ export function Navbar() {
               <Button
                 variant="ghost"
                 className="font-semibold text-sabiduria-purple hover:bg-purple-50"
-                onClick={() => setAuthModalOpen(true)}
+                onClick={openStoreAuth}
                 disabled={loading && Boolean(user)}
               >
                 Ingresar
               </Button>
-              <Button className="bg-sabiduria-purple font-semibold text-white shadow-md hover:bg-sabiduria-purple-soft" onClick={handlePanelClick}>
-                Ir al Panel
+              <Button className="bg-sabiduria-purple font-semibold text-white shadow-md hover:bg-sabiduria-purple-soft" onClick={openStoreAuth}>
+                Comprar en tienda
               </Button>
             </>
           ) : (
@@ -79,8 +90,8 @@ export function Navbar() {
               <div className="max-w-[180px] truncate rounded-full bg-purple-50 px-3 py-2 text-sm font-semibold text-sabiduria-purple">
                 {displayName}
               </div>
-              <Button className="bg-sabiduria-purple font-semibold text-white shadow-md hover:bg-sabiduria-purple-soft" onClick={handlePanelClick}>
-                Ir al Panel
+              <Button className="bg-sabiduria-purple font-semibold text-white shadow-md hover:bg-sabiduria-purple-soft" onClick={handlePrimaryAction}>
+                {panelLabel}
               </Button>
               <Button variant="outline" className="border-red-200 text-red-600 hover:bg-red-50 hover:text-red-700" onClick={signOut}>
                 Salir
@@ -116,16 +127,13 @@ export function Navbar() {
             <div className="mt-4 space-y-2 border-t border-purple-950/10 pt-4">
               {!sessionReady ? (
                 <>
-                  <Button className="w-full bg-sabiduria-purple font-semibold text-white hover:bg-sabiduria-purple-soft" onClick={handlePanelClick}>
-                    Ir al Panel
+                  <Button className="w-full bg-sabiduria-purple font-semibold text-white hover:bg-sabiduria-purple-soft" onClick={openStoreAuth}>
+                    Comprar en tienda
                   </Button>
                   <Button
                     variant="outline"
                     className="w-full font-semibold"
-                    onClick={() => {
-                      setAuthModalOpen(true)
-                      setMobileMenuOpen(false)
-                    }}
+                    onClick={openStoreAuth}
                     disabled={loading && Boolean(user)}
                   >
                     Ingresar
@@ -136,8 +144,8 @@ export function Navbar() {
                   <div className="rounded-lg bg-purple-50 px-3 py-3 text-sm font-semibold text-sabiduria-purple">
                     {displayName}
                   </div>
-                  <Button className="w-full bg-sabiduria-purple font-semibold text-white hover:bg-sabiduria-purple-soft" onClick={handlePanelClick}>
-                    Ir al Panel
+                  <Button className="w-full bg-sabiduria-purple font-semibold text-white hover:bg-sabiduria-purple-soft" onClick={handlePrimaryAction}>
+                    {panelLabel}
                   </Button>
                   <Button
                     variant="outline"
@@ -156,7 +164,17 @@ export function Navbar() {
         </div>
       )}
 
-      <AuthModal isOpen={authModalOpen} onClose={() => setAuthModalOpen(false)} />
+      <AuthModal
+        isOpen={authModalOpen}
+        onClose={() => setAuthModalOpen(false)}
+        defaultTab="login"
+        authEndpoint="/api/auth/tienda/login"
+        allowedRoleCodes={[CLIENTE_TIENDA]}
+        accessDeniedMessage="Este acceso es solo para clientes registrados de la tienda."
+        loginTitle="Acceso cliente"
+        loginDescription="Ingresa con tu cuenta de cliente para continuar tu compra."
+        registerDescription="Crea tu cuenta de cliente para guardar tus pedidos y comprar en la tienda."
+      />
     </header>
   )
 }

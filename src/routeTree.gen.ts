@@ -9,8 +9,10 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TiendaRouteImport } from './routes/tienda'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as RecursosRouteImport } from './routes/recursos'
+import { Route as LoginRouteImport } from './routes/login'
 import { Route as ClerkRouteRouteImport } from './routes/clerk/route'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
@@ -43,18 +45,26 @@ import { Route as AuthenticatedSettingsAppearanceRouteImport } from './routes/_a
 import { Route as AuthenticatedSettingsAccountRouteImport } from './routes/_authenticated/settings/account'
 import { Route as AuthenticatedErrorsErrorRouteImport } from './routes/_authenticated/errors/$error'
 import { Route as AuthenticatedDashboardVehiculosRouteImport } from './routes/_authenticated/dashboard/vehiculos'
+import { Route as AuthenticatedDashboardTiendaProductosRouteImport } from './routes/_authenticated/dashboard/tienda-productos'
 import { Route as AuthenticatedDashboardSociosRouteImport } from './routes/_authenticated/dashboard/socios'
 import { Route as AuthenticatedDashboardSeriesRouteImport } from './routes/_authenticated/dashboard/series'
 import { Route as AuthenticatedDashboardProductosRouteImport } from './routes/_authenticated/dashboard/productos'
 import { Route as AuthenticatedDashboardMockupsRouteImport } from './routes/_authenticated/dashboard/mockups'
 import { Route as AuthenticatedDashboardConductoresRouteImport } from './routes/_authenticated/dashboard/conductores'
 import { Route as AuthenticatedDashboardCategoriasRouteImport } from './routes/_authenticated/dashboard/categorias'
+import { Route as AuthenticatedDashboardVentasPorFacturarRouteImport } from './routes/_authenticated/dashboard/ventas/por-facturar'
+import { Route as AuthenticatedDashboardVentasPedidosTiendaRouteImport } from './routes/_authenticated/dashboard/ventas/pedidos-tienda'
 import { Route as AuthenticatedDashboardVentasNuevaRouteImport } from './routes/_authenticated/dashboard/ventas/nueva'
 import { Route as AuthenticatedDashboardVentasHistorialRouteImport } from './routes/_authenticated/dashboard/ventas/historial'
 import { Route as AuthenticatedDashboardConfiguracionUsuariosRouteImport } from './routes/_authenticated/dashboard/configuracion/usuarios'
 import { Route as AuthenticatedDashboardConfiguracionPerfilRouteImport } from './routes/_authenticated/dashboard/configuracion/perfil'
 import { Route as AuthenticatedDashboardConfiguracionCuentasBancariasRouteImport } from './routes/_authenticated/dashboard/configuracion/cuentas-bancarias'
 
+const TiendaRoute = TiendaRouteImport.update({
+  id: '/tienda',
+  path: '/tienda',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ResetPasswordRoute = ResetPasswordRouteImport.update({
   id: '/reset-password',
   path: '/reset-password',
@@ -63,6 +73,11 @@ const ResetPasswordRoute = ResetPasswordRouteImport.update({
 const RecursosRoute = RecursosRouteImport.update({
   id: '/recursos',
   path: '/recursos',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ClerkRouteRoute = ClerkRouteRouteImport.update({
@@ -233,6 +248,12 @@ const AuthenticatedDashboardVehiculosRoute =
     path: '/dashboard/vehiculos',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedDashboardTiendaProductosRoute =
+  AuthenticatedDashboardTiendaProductosRouteImport.update({
+    id: '/dashboard/tienda-productos',
+    path: '/dashboard/tienda-productos',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedDashboardSociosRoute =
   AuthenticatedDashboardSociosRouteImport.update({
     id: '/dashboard/socios',
@@ -269,6 +290,18 @@ const AuthenticatedDashboardCategoriasRoute =
     path: '/dashboard/categorias',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedDashboardVentasPorFacturarRoute =
+  AuthenticatedDashboardVentasPorFacturarRouteImport.update({
+    id: '/dashboard/ventas/por-facturar',
+    path: '/dashboard/ventas/por-facturar',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedDashboardVentasPedidosTiendaRoute =
+  AuthenticatedDashboardVentasPedidosTiendaRouteImport.update({
+    id: '/dashboard/ventas/pedidos-tienda',
+    path: '/dashboard/ventas/pedidos-tienda',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedDashboardVentasNuevaRoute =
   AuthenticatedDashboardVentasNuevaRouteImport.update({
     id: '/dashboard/ventas/nueva',
@@ -303,8 +336,10 @@ const AuthenticatedDashboardConfiguracionCuentasBancariasRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/clerk': typeof ClerkAuthenticatedRouteRouteWithChildren
+  '/login': typeof LoginRoute
   '/recursos': typeof RecursosRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/tienda': typeof TiendaRoute
   '/settings': typeof AuthenticatedSettingsRouteRouteWithChildren
   '/forgot-password': typeof authForgotPasswordRoute
   '/otp': typeof authOtpRoute
@@ -322,6 +357,7 @@ export interface FileRoutesByFullPath {
   '/dashboard/productos': typeof AuthenticatedDashboardProductosRoute
   '/dashboard/series': typeof AuthenticatedDashboardSeriesRoute
   '/dashboard/socios': typeof AuthenticatedDashboardSociosRoute
+  '/dashboard/tienda-productos': typeof AuthenticatedDashboardTiendaProductosRoute
   '/dashboard/vehiculos': typeof AuthenticatedDashboardVehiculosRoute
   '/errors/$error': typeof AuthenticatedErrorsErrorRoute
   '/settings/account': typeof AuthenticatedSettingsAccountRoute
@@ -343,12 +379,16 @@ export interface FileRoutesByFullPath {
   '/dashboard/configuracion/usuarios': typeof AuthenticatedDashboardConfiguracionUsuariosRoute
   '/dashboard/ventas/historial': typeof AuthenticatedDashboardVentasHistorialRoute
   '/dashboard/ventas/nueva': typeof AuthenticatedDashboardVentasNuevaRoute
+  '/dashboard/ventas/pedidos-tienda': typeof AuthenticatedDashboardVentasPedidosTiendaRoute
+  '/dashboard/ventas/por-facturar': typeof AuthenticatedDashboardVentasPorFacturarRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/clerk': typeof ClerkAuthenticatedRouteRouteWithChildren
+  '/login': typeof LoginRoute
   '/recursos': typeof RecursosRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/tienda': typeof TiendaRoute
   '/forgot-password': typeof authForgotPasswordRoute
   '/otp': typeof authOtpRoute
   '/sign-in': typeof authSignInRoute
@@ -365,6 +405,7 @@ export interface FileRoutesByTo {
   '/dashboard/productos': typeof AuthenticatedDashboardProductosRoute
   '/dashboard/series': typeof AuthenticatedDashboardSeriesRoute
   '/dashboard/socios': typeof AuthenticatedDashboardSociosRoute
+  '/dashboard/tienda-productos': typeof AuthenticatedDashboardTiendaProductosRoute
   '/dashboard/vehiculos': typeof AuthenticatedDashboardVehiculosRoute
   '/errors/$error': typeof AuthenticatedErrorsErrorRoute
   '/settings/account': typeof AuthenticatedSettingsAccountRoute
@@ -386,14 +427,18 @@ export interface FileRoutesByTo {
   '/dashboard/configuracion/usuarios': typeof AuthenticatedDashboardConfiguracionUsuariosRoute
   '/dashboard/ventas/historial': typeof AuthenticatedDashboardVentasHistorialRoute
   '/dashboard/ventas/nueva': typeof AuthenticatedDashboardVentasNuevaRoute
+  '/dashboard/ventas/pedidos-tienda': typeof AuthenticatedDashboardVentasPedidosTiendaRoute
+  '/dashboard/ventas/por-facturar': typeof AuthenticatedDashboardVentasPorFacturarRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/clerk': typeof ClerkRouteRouteWithChildren
+  '/login': typeof LoginRoute
   '/recursos': typeof RecursosRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/tienda': typeof TiendaRoute
   '/_authenticated/settings': typeof AuthenticatedSettingsRouteRouteWithChildren
   '/clerk/(auth)': typeof ClerkauthRouteRouteWithChildren
   '/clerk/_authenticated': typeof ClerkAuthenticatedRouteRouteWithChildren
@@ -413,6 +458,7 @@ export interface FileRoutesById {
   '/_authenticated/dashboard/productos': typeof AuthenticatedDashboardProductosRoute
   '/_authenticated/dashboard/series': typeof AuthenticatedDashboardSeriesRoute
   '/_authenticated/dashboard/socios': typeof AuthenticatedDashboardSociosRoute
+  '/_authenticated/dashboard/tienda-productos': typeof AuthenticatedDashboardTiendaProductosRoute
   '/_authenticated/dashboard/vehiculos': typeof AuthenticatedDashboardVehiculosRoute
   '/_authenticated/errors/$error': typeof AuthenticatedErrorsErrorRoute
   '/_authenticated/settings/account': typeof AuthenticatedSettingsAccountRoute
@@ -434,14 +480,18 @@ export interface FileRoutesById {
   '/_authenticated/dashboard/configuracion/usuarios': typeof AuthenticatedDashboardConfiguracionUsuariosRoute
   '/_authenticated/dashboard/ventas/historial': typeof AuthenticatedDashboardVentasHistorialRoute
   '/_authenticated/dashboard/ventas/nueva': typeof AuthenticatedDashboardVentasNuevaRoute
+  '/_authenticated/dashboard/ventas/pedidos-tienda': typeof AuthenticatedDashboardVentasPedidosTiendaRoute
+  '/_authenticated/dashboard/ventas/por-facturar': typeof AuthenticatedDashboardVentasPorFacturarRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/clerk'
+    | '/login'
     | '/recursos'
     | '/reset-password'
+    | '/tienda'
     | '/settings'
     | '/forgot-password'
     | '/otp'
@@ -459,6 +509,7 @@ export interface FileRouteTypes {
     | '/dashboard/productos'
     | '/dashboard/series'
     | '/dashboard/socios'
+    | '/dashboard/tienda-productos'
     | '/dashboard/vehiculos'
     | '/errors/$error'
     | '/settings/account'
@@ -480,12 +531,16 @@ export interface FileRouteTypes {
     | '/dashboard/configuracion/usuarios'
     | '/dashboard/ventas/historial'
     | '/dashboard/ventas/nueva'
+    | '/dashboard/ventas/pedidos-tienda'
+    | '/dashboard/ventas/por-facturar'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/clerk'
+    | '/login'
     | '/recursos'
     | '/reset-password'
+    | '/tienda'
     | '/forgot-password'
     | '/otp'
     | '/sign-in'
@@ -502,6 +557,7 @@ export interface FileRouteTypes {
     | '/dashboard/productos'
     | '/dashboard/series'
     | '/dashboard/socios'
+    | '/dashboard/tienda-productos'
     | '/dashboard/vehiculos'
     | '/errors/$error'
     | '/settings/account'
@@ -523,13 +579,17 @@ export interface FileRouteTypes {
     | '/dashboard/configuracion/usuarios'
     | '/dashboard/ventas/historial'
     | '/dashboard/ventas/nueva'
+    | '/dashboard/ventas/pedidos-tienda'
+    | '/dashboard/ventas/por-facturar'
   id:
     | '__root__'
     | '/'
     | '/_authenticated'
     | '/clerk'
+    | '/login'
     | '/recursos'
     | '/reset-password'
+    | '/tienda'
     | '/_authenticated/settings'
     | '/clerk/(auth)'
     | '/clerk/_authenticated'
@@ -549,6 +609,7 @@ export interface FileRouteTypes {
     | '/_authenticated/dashboard/productos'
     | '/_authenticated/dashboard/series'
     | '/_authenticated/dashboard/socios'
+    | '/_authenticated/dashboard/tienda-productos'
     | '/_authenticated/dashboard/vehiculos'
     | '/_authenticated/errors/$error'
     | '/_authenticated/settings/account'
@@ -570,14 +631,18 @@ export interface FileRouteTypes {
     | '/_authenticated/dashboard/configuracion/usuarios'
     | '/_authenticated/dashboard/ventas/historial'
     | '/_authenticated/dashboard/ventas/nueva'
+    | '/_authenticated/dashboard/ventas/pedidos-tienda'
+    | '/_authenticated/dashboard/ventas/por-facturar'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   ClerkRouteRoute: typeof ClerkRouteRouteWithChildren
+  LoginRoute: typeof LoginRoute
   RecursosRoute: typeof RecursosRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
+  TiendaRoute: typeof TiendaRoute
   authForgotPasswordRoute: typeof authForgotPasswordRoute
   authOtpRoute: typeof authOtpRoute
   authSignInRoute: typeof authSignInRoute
@@ -592,6 +657,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/tienda': {
+      id: '/tienda'
+      path: '/tienda'
+      fullPath: '/tienda'
+      preLoaderRoute: typeof TiendaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/reset-password': {
       id: '/reset-password'
       path: '/reset-password'
@@ -604,6 +676,13 @@ declare module '@tanstack/react-router' {
       path: '/recursos'
       fullPath: '/recursos'
       preLoaderRoute: typeof RecursosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/clerk': {
@@ -830,6 +909,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDashboardVehiculosRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/dashboard/tienda-productos': {
+      id: '/_authenticated/dashboard/tienda-productos'
+      path: '/dashboard/tienda-productos'
+      fullPath: '/dashboard/tienda-productos'
+      preLoaderRoute: typeof AuthenticatedDashboardTiendaProductosRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/dashboard/socios': {
       id: '/_authenticated/dashboard/socios'
       path: '/dashboard/socios'
@@ -870,6 +956,20 @@ declare module '@tanstack/react-router' {
       path: '/dashboard/categorias'
       fullPath: '/dashboard/categorias'
       preLoaderRoute: typeof AuthenticatedDashboardCategoriasRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/dashboard/ventas/por-facturar': {
+      id: '/_authenticated/dashboard/ventas/por-facturar'
+      path: '/dashboard/ventas/por-facturar'
+      fullPath: '/dashboard/ventas/por-facturar'
+      preLoaderRoute: typeof AuthenticatedDashboardVentasPorFacturarRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/dashboard/ventas/pedidos-tienda': {
+      id: '/_authenticated/dashboard/ventas/pedidos-tienda'
+      path: '/dashboard/ventas/pedidos-tienda'
+      fullPath: '/dashboard/ventas/pedidos-tienda'
+      preLoaderRoute: typeof AuthenticatedDashboardVentasPedidosTiendaRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/dashboard/ventas/nueva': {
@@ -941,6 +1041,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedDashboardProductosRoute: typeof AuthenticatedDashboardProductosRoute
   AuthenticatedDashboardSeriesRoute: typeof AuthenticatedDashboardSeriesRoute
   AuthenticatedDashboardSociosRoute: typeof AuthenticatedDashboardSociosRoute
+  AuthenticatedDashboardTiendaProductosRoute: typeof AuthenticatedDashboardTiendaProductosRoute
   AuthenticatedDashboardVehiculosRoute: typeof AuthenticatedDashboardVehiculosRoute
   AuthenticatedErrorsErrorRoute: typeof AuthenticatedErrorsErrorRoute
   AuthenticatedAppsIndexRoute: typeof AuthenticatedAppsIndexRoute
@@ -954,6 +1055,8 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedDashboardConfiguracionUsuariosRoute: typeof AuthenticatedDashboardConfiguracionUsuariosRoute
   AuthenticatedDashboardVentasHistorialRoute: typeof AuthenticatedDashboardVentasHistorialRoute
   AuthenticatedDashboardVentasNuevaRoute: typeof AuthenticatedDashboardVentasNuevaRoute
+  AuthenticatedDashboardVentasPedidosTiendaRoute: typeof AuthenticatedDashboardVentasPedidosTiendaRoute
+  AuthenticatedDashboardVentasPorFacturarRoute: typeof AuthenticatedDashboardVentasPorFacturarRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
@@ -965,6 +1068,8 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedDashboardProductosRoute: AuthenticatedDashboardProductosRoute,
   AuthenticatedDashboardSeriesRoute: AuthenticatedDashboardSeriesRoute,
   AuthenticatedDashboardSociosRoute: AuthenticatedDashboardSociosRoute,
+  AuthenticatedDashboardTiendaProductosRoute:
+    AuthenticatedDashboardTiendaProductosRoute,
   AuthenticatedDashboardVehiculosRoute: AuthenticatedDashboardVehiculosRoute,
   AuthenticatedErrorsErrorRoute: AuthenticatedErrorsErrorRoute,
   AuthenticatedAppsIndexRoute: AuthenticatedAppsIndexRoute,
@@ -983,6 +1088,10 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
     AuthenticatedDashboardVentasHistorialRoute,
   AuthenticatedDashboardVentasNuevaRoute:
     AuthenticatedDashboardVentasNuevaRoute,
+  AuthenticatedDashboardVentasPedidosTiendaRoute:
+    AuthenticatedDashboardVentasPedidosTiendaRoute,
+  AuthenticatedDashboardVentasPorFacturarRoute:
+    AuthenticatedDashboardVentasPorFacturarRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
@@ -1035,8 +1144,10 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   ClerkRouteRoute: ClerkRouteRouteWithChildren,
+  LoginRoute: LoginRoute,
   RecursosRoute: RecursosRoute,
   ResetPasswordRoute: ResetPasswordRoute,
+  TiendaRoute: TiendaRoute,
   authForgotPasswordRoute: authForgotPasswordRoute,
   authOtpRoute: authOtpRoute,
   authSignInRoute: authSignInRoute,

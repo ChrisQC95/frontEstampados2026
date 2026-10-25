@@ -83,3 +83,55 @@ export const registrarVenta = async (payload: VentaRequestDTO): Promise<unknown>
   return res.json()
 }
 
+export interface PedidoFacturacionItem {
+  tiendaProductoId: number
+  productoServicioId: number | null
+  servicioEstampadoId: number | null
+  productoNombre: string
+  servicioNombre: string | null
+  talla: string | null
+  cantidad: number
+  precioProducto: number
+  precioServicio: number
+}
+
+export interface PedidoFacturacion {
+  pedidoId: number
+  codigo: string
+  estado: string
+  estadoPago: string
+  metodoPago: string
+  fechaCreacion: string
+  subtotal: number
+  costoEnvio: number
+  productoServicioEnvioId: number | null
+  nombreServicioEnvio: string | null
+  total: number
+  tipoComprobante: 'FACTURA' | 'BOLETA'
+  tipoDocumento: string
+  numeroDocumento: string
+  nombreFacturacion: string
+  direccionFiscal: string | null
+  ubigeoFiscal: string | null
+  emailFacturacion: string
+  direccionEntrega: string
+  ubigeoEntrega: string
+  items: PedidoFacturacionItem[]
+}
+
+export const getPedidosPendientesFacturacion = async (): Promise<PedidoFacturacion[]> => {
+  const token = await getToken()
+  const res = await fetch(`${BASE_URL}/tienda/facturacion/pendientes`, { headers: { Authorization: `Bearer ${token}` } })
+  if (!res.ok) throw new Error(await res.text() || 'No se pudieron cargar los pedidos pendientes')
+  return res.json()
+}
+
+export const getPedidosSeleccionados = async (ids: number[]): Promise<PedidoFacturacion[]> => {
+  const token = await getToken()
+  const params = new URLSearchParams()
+  ids.forEach((id) => params.append('ids', String(id)))
+  const res = await fetch(`${BASE_URL}/tienda/facturacion/pendientes/seleccionados?${params}`, { headers: { Authorization: `Bearer ${token}` } })
+  if (!res.ok) throw new Error(await res.text() || 'Los pedidos seleccionados ya no están disponibles')
+  return res.json()
+}
+

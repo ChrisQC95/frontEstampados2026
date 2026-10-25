@@ -2,6 +2,7 @@ export interface VentaDetalle {
   id: number
   productoId: number
   productoNombre: string
+  talla?: string | null
   unidadMedida: string
   cantidad: number
   precioUnitario: number

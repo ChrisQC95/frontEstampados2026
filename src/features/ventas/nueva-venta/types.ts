@@ -54,6 +54,7 @@ export interface CartItem {
 export interface VentaDetalleRequestDTO {
   productoId: number
   productoNombre: string
+  talla?: string | null
   unidadMedida: string
   cantidad: number
   precioUnitario: number
@@ -76,6 +77,7 @@ export interface GuiaRemisionRequestDTO {
 export interface VentaRequestDTO {
   usuarioId: number
   socioNegocioId: number
+  pedidoTiendaIds?: number[]
   tipoComprobanteId: number
   tipoOperacionId: number
   monedaId: number
